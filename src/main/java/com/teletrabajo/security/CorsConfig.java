@@ -9,38 +9,38 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.time.Duration;
 import java.util.List;
 @Configuration
+
 public class CorsConfig {
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration config = new CorsConfiguration();
 
-        // 🔒 Dominios permitidos (ajusta a los tuyos reales)
-        config.setAllowedOriginPatterns(List.of(
+        config.setAllowedOrigins(List.of(
                 "http://localhost:4200",
-                "https://*.up.railway.app",
-                "https://*"
+                "https://tu-frontend.up.railway.app"
         ));
 
-        // ✅ Métodos permitidos
-        config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS","HEAD"));
+        config.setAllowedMethods(List.of(
+                "GET","POST","PUT","DELETE","PATCH","OPTIONS"
+        ));
 
-        // 📩 Headers que el navegador puede ENVIAR (usados en el preflight)
         config.setAllowedHeaders(List.of(
-                "Authorization","Content-Type","Accept","Origin","X-Requested-With"
+                "Authorization","Content-Type"
         ));
 
-        // 📤 Headers que el navegador puede LEER de la respuesta (opcional)
-        config.setExposedHeaders(List.of("Authorization"));
+        config.setExposedHeaders(List.of(
+                "Authorization"
+        ));
 
-        // 🍪 Si usas cookies/sesión entre orígenes
         config.setAllowCredentials(true);
 
-        // ⏱️ Cachea la respuesta del preflight en el navegador
-        config.setMaxAge(Duration.ofHours(1));
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Aplica esta config a todos los endpoints
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 }
