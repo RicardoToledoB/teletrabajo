@@ -1,0 +1,57 @@
+package com.teletrabajo.security.seeder;
+
+import com.teletrabajo.entity.RoleEntity;
+import com.teletrabajo.entity.UserEntity;
+import com.teletrabajo.entity.UserRoleEntity;
+import com.teletrabajo.repository.UserRepository;
+import com.teletrabajo.repository.UserRoleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+@Configuration
+@RequiredArgsConstructor
+public class DataSeeder implements CommandLineRunner {
+
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final JpaRepository<RoleEntity, Integer> roleRepo;
+    private final UserRoleRepository userRoleRepository;
+
+    @Override
+    public void run(String... args) {
+        RoleEntity admin = roleRepo.save(RoleEntity.builder().name("ADMIN").build());
+        RoleEntity administrativo = roleRepo.save(RoleEntity.builder().name("ADMINISTRATIVO").build());
+        RoleEntity supervisor = roleRepo.save(RoleEntity.builder().name("SUPERVISOR").build());
+
+
+        // Crea usuarios (password BCrypt)
+        UserEntity u1 = userRepository.save(UserEntity.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("Admin123$"))
+                .email("admin@demo.com")
+                .firstName("Admin")
+                .build());
+
+        UserEntity u2 = userRepository.save(UserEntity.builder()
+                .username("operador")
+                .password(passwordEncoder.encode("Operador123$"))
+                .email("operador@demo.com")
+                .firstName("Operador")
+                .build());
+
+        UserEntity u3 = userRepository.save(UserEntity.builder()
+                .username("supervisor")
+                .password(passwordEncoder.encode("Supervisor123$"))
+                .email("supervisor@demo.com")
+                .firstName("Supervisor")
+                .build());
+
+        // Asigna roles
+        userRoleRepository.save(UserRoleEntity.builder().user(u1).role(admin).build());
+        userRoleRepository.save(UserRoleEntity.builder().user(u2).role(administrativo).build());
+        userRoleRepository.save(UserRoleEntity.builder().user(u3).role(supervisor).build());
+
+    }
+}
