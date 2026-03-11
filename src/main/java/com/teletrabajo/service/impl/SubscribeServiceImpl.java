@@ -160,4 +160,8 @@ public class SubscribeServiceImpl implements ISubscribeService {
         entity.setDeletedAt(null);
         repository.save(entity);
     }
+
+    public List<SubscribeEntity> findByUserId(Integer userId){
+        return repository.findByUserId(userId);
+    }
 }

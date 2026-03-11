@@ -1,6 +1,7 @@
 package com.teletrabajo.controller;
 
 import com.teletrabajo.dto.SubscribeDTO;
+import com.teletrabajo.entity.SubscribeEntity;
 import com.teletrabajo.service.impl.SubscribeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -72,5 +73,10 @@ public class SubscribeController {
     public ResponseEntity<Void> restore(@PathVariable Integer id) {
         service.restore(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<SubscribeEntity> getByUser(@PathVariable Integer userId){
+        return service.findByUserId(userId);
     }
 }

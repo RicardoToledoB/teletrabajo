@@ -38,4 +38,6 @@ public interface SubscribeRepository extends JpaRepository<SubscribeEntity,Integ
     WHERE (:active IS NULL OR c.active = :active)
 """)
     Page<SubscribeEntity> search(@Param("active") String active, Pageable pageable);
+
+    List<SubscribeEntity> findByUserId(Integer userId);
 }
