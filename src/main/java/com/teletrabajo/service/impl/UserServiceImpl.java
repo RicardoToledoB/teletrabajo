@@ -1,5 +1,6 @@
 package com.teletrabajo.service.impl;
 
+import com.teletrabajo.dto.ChangePasswordDTO;
 import com.teletrabajo.dto.UserDTO;
 import com.teletrabajo.entity.UserEntity;
 import com.teletrabajo.repository.UserRepository;
@@ -16,21 +17,6 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements IUserService {
 
-
-
-
-    /*
-    private String firstName;
-    private String secondName;
-    private String firstLastName;
-    private String secondLastName;
-    private String email;
-    private String username;
-    private String password;
-    private String rut;
-
-     */
-
     @Autowired
     private UserRepository repository;
 
@@ -46,7 +32,7 @@ public class UserServiceImpl implements IUserService {
                 .secondLastName(entity.getSecondLastName())
                 .email(entity.getEmail())
                 .username(entity.getUsername())
-                .password(entity.getPassword())
+                .password(null)
                 .rut(entity.getRut())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -72,13 +58,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     public UserDTO create(UserDTO dto) {
-        // ⚠️ Validar que la contraseña no venga vacía ni nula
         if (dto.getPassword() == null || dto.getPassword().isBlank()) {
             throw new RuntimeException("La contraseña no puede estar vacía");
         }
 
         UserEntity entity = mapToEntity(dto);
-        entity.setPassword(passwordEncoder.encode(dto.getPassword())); // 🔒 Encripta
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity = repository.save(entity);
         return mapToDTO(entity);
     }
@@ -96,7 +81,6 @@ public class UserServiceImpl implements IUserService {
         entity.setUsername(dto.getUsername());
         entity.setRut(dto.getRut());
 
-        // 🔒 Solo cambia la contraseña si se envía una nueva y válida
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
@@ -107,7 +91,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserDTO getById(Integer id) {
         UserEntity entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return mapToDTO(entity);
     }
 
@@ -118,8 +102,8 @@ public class UserServiceImpl implements IUserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserDTO> findByEmail(String name) {
-        return repository.findByEmail(name).stream()
+    public List<UserDTO> findByEmail(String email) {
+        return repository.findByEmail(email).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
@@ -129,35 +113,22 @@ public class UserServiceImpl implements IUserService {
         repository.deleteById(id);
     }
 
-
     public Page<UserDTO> getAllPaginated(Pageable pageable) {
         return repository.findAllPaginated(pageable)
                 .map(this::mapToDTO);
     }
 
-   /* public Page<UserDTO> getAllPaginated(String name, Pageable pageable) {
-        return repository.search(name, pageable).map(this::mapToDTO);
-    }*/
-
-
-
-
-
-    /*Listar communas activas*/
     public List<UserDTO> listAll() {
         return repository.findAllIncludingDeleted().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
-
     public List<UserDTO> listActive() {
         return repository.findAllActive().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
-
-
 
     public List<UserDTO> listDeleted() {
         return repository.findAllDeleted().stream()
@@ -167,8 +138,41 @@ public class UserServiceImpl implements IUserService {
 
     public void restore(Integer id) {
         UserEntity entity = repository.findAnyById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         entity.setDeletedAt(null);
+        repository.save(entity);
+    }
+
+    @Override
+    public void changePassword(Integer id, ChangePasswordDTO dto) {
+        UserEntity entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (dto.getCurrentPassword() == null || dto.getCurrentPassword().isBlank()) {
+            throw new RuntimeException("La contraseña actual es obligatoria");
+        }
+
+        if (dto.getNewPassword() == null || dto.getNewPassword().isBlank()) {
+            throw new RuntimeException("La nueva contraseña es obligatoria");
+        }
+
+        if (dto.getConfirmPassword() == null || dto.getConfirmPassword().isBlank()) {
+            throw new RuntimeException("La confirmación de contraseña es obligatoria");
+        }
+
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), entity.getPassword())) {
+            throw new RuntimeException("La contraseña actual es incorrecta");
+        }
+
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            throw new RuntimeException("La nueva contraseña y su confirmación no coinciden");
+        }
+
+        if (passwordEncoder.matches(dto.getNewPassword(), entity.getPassword())) {
+            throw new RuntimeException("La nueva contraseña no puede ser igual a la actual");
+        }
+
+        entity.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         repository.save(entity);
     }
 }

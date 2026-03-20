@@ -1,5 +1,6 @@
 package com.teletrabajo.service;
 
+import com.teletrabajo.dto.ChangePasswordDTO;
 import com.teletrabajo.dto.UserDTO;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface IUserService {
     List<UserDTO> getAll();
 
     void delete(Integer id);
+    void changePassword(Integer id, ChangePasswordDTO dto);
 }

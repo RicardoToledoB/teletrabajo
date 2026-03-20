@@ -34,10 +34,10 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer> {
     Page<UserEntity> findAllPaginated(Pageable pageable);
 
     @Query("""
-       SELECT c FROM UserEntity c
-       WHERE (:name IS NULL OR TRIM(:name) = '' 
-              OR LOWER(c.username) LIKE LOWER(CONCAT('%', :username, '%')))
-    """)
+   SELECT c FROM UserEntity c
+   WHERE (:username IS NULL OR TRIM(:username) = ''
+          OR LOWER(c.username) LIKE LOWER(CONCAT('%', :username, '%')))
+""")
     Page<UserEntity> search(@Param("username") String username, Pageable pageable);
 
     Optional<UserEntity> findByUsername(String username);

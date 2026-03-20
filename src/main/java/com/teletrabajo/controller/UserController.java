@@ -1,5 +1,6 @@
 package com.teletrabajo.controller;
 
+import com.teletrabajo.dto.ChangePasswordDTO;
 import com.teletrabajo.dto.UserDTO;
 import com.teletrabajo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,12 @@ public class UserController {
     public ResponseEntity<Void> restore(@PathVariable Integer id) {
         service.restore(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/change-password")
+    public ResponseEntity<String> changePassword(@PathVariable Integer id,
+                                                 @RequestBody ChangePasswordDTO dto) {
+        service.changePassword(id, dto);
+        return ResponseEntity.ok("Contraseña actualizada correctamente");
     }
 }
