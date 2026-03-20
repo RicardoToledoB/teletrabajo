@@ -8,8 +8,10 @@ import com.teletrabajo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -161,7 +163,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         if (!passwordEncoder.matches(dto.getCurrentPassword(), entity.getPassword())) {
-            throw new RuntimeException("La contraseña actual es incorrecta");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña actual es incorrecta");
         }
 
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
