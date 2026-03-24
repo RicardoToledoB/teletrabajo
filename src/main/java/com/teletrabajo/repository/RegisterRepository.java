@@ -36,4 +36,12 @@ public interface RegisterRepository extends JpaRepository<RegisterEntity,Integer
               OR LOWER(c.state) LIKE LOWER(CONCAT('%', :state, '%')))
     """)
     Page<RegisterEntity> search(@Param("state") String state, Pageable pageable);
+
+
+    @Query("""
+    SELECT r FROM RegisterEntity r
+    WHERE r.user.id = :userId
+    AND r.deletedAt IS NULL
+""")
+    Page<RegisterEntity> findByUserId(@Param("userId") Integer userId, Pageable pageable);
 }

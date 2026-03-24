@@ -157,4 +157,9 @@ public class RegisterServiceImpl implements IRegisterService {
         entity.setDeletedAt(null);
         repository.save(entity);
     }
+
+    public Page<RegisterDTO> findByUserId(Integer userId, Pageable pageable) {
+        return repository.findByUserId(userId, pageable)
+                .map(this::mapToDTO);
+    }
 }

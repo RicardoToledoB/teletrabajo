@@ -24,6 +24,7 @@ public class DataSeeder implements CommandLineRunner {
         RoleEntity admin = roleRepo.save(RoleEntity.builder().name("ADMIN").build());
         RoleEntity administrativo = roleRepo.save(RoleEntity.builder().name("ADMINISTRATIVO").build());
         RoleEntity supervisor = roleRepo.save(RoleEntity.builder().name("SUPERVISOR").build());
+        RoleEntity jefatura = roleRepo.save(RoleEntity.builder().name("JEFATURA").build());
 
 
         // Crea usuarios (password BCrypt)
@@ -48,10 +49,18 @@ public class DataSeeder implements CommandLineRunner {
                 .firstName("Supervisor")
                 .build());
 
+        UserEntity u4 = userRepository.save(UserEntity.builder()
+                .username("jefatura")
+                .password(passwordEncoder.encode("Jefatura123$"))
+                .email("jefatura@demo.com")
+                .firstName("Jefatura")
+                .build());
+
         // Asigna roles
         userRoleRepository.save(UserRoleEntity.builder().user(u1).role(admin).build());
         userRoleRepository.save(UserRoleEntity.builder().user(u2).role(administrativo).build());
         userRoleRepository.save(UserRoleEntity.builder().user(u3).role(supervisor).build());
+        userRoleRepository.save(UserRoleEntity.builder().user(u4).role(jefatura).build());
 
     }
 }
