@@ -11,14 +11,14 @@ import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="users_roles")
+@Table(name="users_groups")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @SQLDelete(sql = "UPDATE users_groups SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @SQLRestriction("deleted_at IS NULL")
-public class UserRoleEntity {
+public class UserGroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,8 @@ public class UserRoleEntity {
     @JoinColumn(name="user_id")
     private UserEntity user;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="role_id")
-    private RoleEntity role;
+    @JoinColumn(name="group_id")
+    private GroupEntity group;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
