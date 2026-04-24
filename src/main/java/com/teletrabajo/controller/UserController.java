@@ -88,4 +88,11 @@ public class UserController {
         service.changePassword(id, dto);
         return ResponseEntity.ok("Contraseña actualizada correctamente");
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<UserDTO>> search(
+            @RequestParam(required = false) String term,
+            @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(service.searchAll(term, pageable));
+    }
 }

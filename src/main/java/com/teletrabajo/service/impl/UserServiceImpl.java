@@ -177,4 +177,9 @@ public class UserServiceImpl implements IUserService {
         entity.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         repository.save(entity);
     }
+
+    public Page<UserDTO> searchAll(String term, Pageable pageable) {
+        return repository.searchAll(term, pageable)
+                .map(this::mapToDTO);
+    }
 }

@@ -45,4 +45,17 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer> {
     Optional<UserEntity> findByEmail(String email);
     Optional<UserEntity> findByEmailIgnoreCase(String email);
 
+    @Query("""
+SELECT u FROM UserEntity u
+WHERE u.deletedAt IS NULL AND (
+    :term IS NULL OR TRIM(:term) = '' OR
+    LOWER(u.firstName) LIKE LOWER(CONCAT('%', :term, '%')) OR
+    LOWER(u.secondName) LIKE LOWER(CONCAT('%', :term, '%')) OR
+    LOWER(u.firstLastName) LIKE LOWER(CONCAT('%', :term, '%')) OR
+    LOWER(u.secondLastName) LIKE LOWER(CONCAT('%', :term, '%')) OR
+    LOWER(u.rut) LIKE LOWER(CONCAT('%', :term, '%'))
+)
+""")
+    Page<UserEntity> searchAll(@Param("term") String term, Pageable pageable);
+
 }
