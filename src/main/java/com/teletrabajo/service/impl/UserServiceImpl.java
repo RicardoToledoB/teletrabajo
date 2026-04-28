@@ -32,7 +32,7 @@ public class UserServiceImpl implements IUserService {
                 .secondName(entity.getSecondName())
                 .firstLastName(entity.getFirstLastName())
                 .secondLastName(entity.getSecondLastName())
-                .full_name(entity.getFirstName()+" "+entity.getSecondName()+" "+entity.getFirstName()+" "+entity.getSecondLastName())
+                .full_name(entity.getFull_name())
                 .email(entity.getEmail())
                 .username(entity.getUsername())
                 .password(null)
@@ -50,8 +50,7 @@ public class UserServiceImpl implements IUserService {
                 .secondName(dto.getSecondName())
                 .firstLastName(dto.getFirstLastName())
                 .secondLastName(dto.getSecondLastName())
-                .full_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstName()+" "+dto.getSecondLastName())
-
+                .full_name(dto.getFull_name())
                 .email(dto.getEmail())
                 .username(dto.getUsername())
                 .password(dto.getPassword())
@@ -69,8 +68,11 @@ public class UserServiceImpl implements IUserService {
 
         UserEntity entity = mapToEntity(dto);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-        entity.setFull_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
-
+        if(dto.getSecondName()!=null){
+            entity.setFull_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
+        }else{
+            entity.setFull_name(dto.getFirstName()+ dto.getFirstLastName()+" "+dto.getSecondLastName());
+        }
         entity = repository.save(entity);
         return mapToDTO(entity);
     }
@@ -84,7 +86,11 @@ public class UserServiceImpl implements IUserService {
         entity.setSecondName(dto.getSecondName());
         entity.setFirstLastName(dto.getFirstLastName());
         entity.setSecondLastName(dto.getSecondLastName());
-        entity.setFull_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
+        if(dto.getSecondName()!=null){
+            entity.setFull_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
+        }else{
+            entity.setFull_name(dto.getFirstName()+ dto.getFirstLastName()+" "+dto.getSecondLastName());
+        }
         entity.setEmail(dto.getEmail());
         entity.setUsername(dto.getUsername());
         entity.setRut(dto.getRut());
