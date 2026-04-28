@@ -71,7 +71,7 @@ public class UserServiceImpl implements IUserService {
         if(dto.getSecondName()!=null){
             entity.setFull_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
         }else{
-            entity.setFull_name(dto.getFirstName()+" " dto.getFirstLastName()+" "+dto.getSecondLastName());
+            entity.setFull_name(dto.getFirstName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
         }
         entity = repository.save(entity);
         return mapToDTO(entity);
