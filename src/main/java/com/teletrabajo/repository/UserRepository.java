@@ -49,6 +49,7 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer> {
 SELECT u FROM UserEntity u
 WHERE u.deletedAt IS NULL AND (
     :term IS NULL OR TRIM(:term) = '' OR
+    LOWER(u.full_name) LIKE LOWER(CONCAT('%', :term, '%')) OR
     LOWER(u.firstName) LIKE LOWER(CONCAT('%', :term, '%')) OR
     LOWER(u.secondName) LIKE LOWER(CONCAT('%', :term, '%')) OR
     LOWER(u.firstLastName) LIKE LOWER(CONCAT('%', :term, '%')) OR

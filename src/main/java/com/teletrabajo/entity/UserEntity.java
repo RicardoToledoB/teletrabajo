@@ -28,6 +28,7 @@ public class UserEntity {
     private String secondName;
     private String firstLastName;
     private String secondLastName;
+    private String full_name;
     @Column(unique = true)
     private String email;
     private String username;
