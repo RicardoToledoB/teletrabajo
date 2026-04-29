@@ -18,7 +18,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-                "http://localhost:4200", "https://*.up.railway.app", "https://*"
+                "http://localhost:4200","https://*.dssm.cl", "https://*.up.railway.app", "https://*"
         ));
 
         config.setAllowedMethods(List.of(
