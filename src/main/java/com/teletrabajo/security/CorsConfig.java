@@ -6,10 +6,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.time.Duration;
 import java.util.List;
-@Configuration
 
+@Configuration
 public class CorsConfig {
 
     @Bean
@@ -17,16 +16,24 @@ public class CorsConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
-                "http://localhost:4200","https://teletrabajo.dssm.cl","https://*.dssm.cl", "https://*.up.railway.app", "https://*"
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:4200",
+                "https://gestiondepersonas.dssm.cl",
+                "https://teletrabajo.dssm.cl",
+                "https://*.dssm.cl",
+                "https://*.up.railway.app"
         ));
 
         config.setAllowedMethods(List.of(
-                "GET","POST","PUT","DELETE","PATCH","OPTIONS"
+                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
         ));
 
         config.setAllowedHeaders(List.of(
-                "Authorization","Content-Type"
+                "Authorization",
+                "Content-Type",
+                "Accept",
+                "Origin",
+                "X-Requested-With"
         ));
 
         config.setExposedHeaders(List.of(
@@ -34,6 +41,8 @@ public class CorsConfig {
         ));
 
         config.setAllowCredentials(true);
+
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
