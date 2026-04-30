@@ -1,6 +1,7 @@
 package com.teletrabajo.service.impl;
 
 import com.teletrabajo.dto.ChangePasswordDTO;
+import com.teletrabajo.dto.EmailRequestDTO;
 import com.teletrabajo.dto.UserDTO;
 import com.teletrabajo.entity.UserEntity;
 import com.teletrabajo.repository.UserRepository;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailNotificationService emailNotificationService;
 
     private UserDTO mapToDTO(UserEntity entity) {
         return UserDTO.builder()
@@ -193,5 +197,50 @@ public class UserServiceImpl implements IUserService {
     public Page<UserDTO> searchAll(String term, Pageable pageable) {
         return repository.searchAll(term, pageable)
                 .map(this::mapToDTO);
+    }
+
+
+
+    public void recoverPassword(String email) {
+
+        UserEntity user = repository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException("No existe un usuario registrado con ese correo"));
+
+        String temporaryPassword = generateTemporaryPassword();
+
+        user.setPassword(passwordEncoder.encode(temporaryPassword));
+        repository.save(user);
+
+        EmailRequestDTO emailDto = EmailRequestDTO.builder()
+                .to(user.getEmail())
+                .subject("Recuperación de contraseña - Sistema Teletrabajo")
+                .message("""
+                    Estimado/a %s:
+
+                    Se ha generado una contraseña temporal para acceder al Sistema de Teletrabajo.
+
+                    Usuario: %s
+                    Contraseña temporal: %s
+
+                    Por seguridad, se recomienda cambiar esta contraseña una vez que ingrese al sistema.
+
+                    Saluda atentamente,
+                    Sistema Teletrabajo
+                    """.formatted(user.getFull_name(), user.getUsername(), temporaryPassword))
+                .build();
+
+        emailNotificationService.sendEmail(emailDto);
+    }
+
+    private String generateTemporaryPassword() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%";
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            int index = (int) (Math.random() * chars.length());
+            password.append(chars.charAt(index));
+        }
+
+        return password.toString();
     }
 }

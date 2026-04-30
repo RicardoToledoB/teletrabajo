@@ -59,4 +59,5 @@ WHERE u.deletedAt IS NULL AND (
 """)
     Page<UserEntity> searchAll(@Param("term") String term, Pageable pageable);
 
+
 }

@@ -1,6 +1,7 @@
 package com.teletrabajo.controller;
 
 import com.teletrabajo.dto.ChangePasswordDTO;
+import com.teletrabajo.dto.RecoverPasswordDTO;
 import com.teletrabajo.dto.UserDTO;
 import com.teletrabajo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,5 +95,11 @@ public class UserController {
             @RequestParam(required = false) String term,
             @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(service.searchAll(term, pageable));
+    }
+
+    @PostMapping("/recover-password")
+    public ResponseEntity<String> recoverPassword(@RequestBody RecoverPasswordDTO dto) {
+        service.recoverPassword(dto.getEmail());
+        return ResponseEntity.ok("Se ha enviado una contraseña temporal al correo registrado");
     }
 }
