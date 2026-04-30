@@ -215,18 +215,22 @@ public class UserServiceImpl implements IUserService {
                 .to(user.getEmail())
                 .subject("Recuperación de contraseña - Sistema Teletrabajo")
                 .message("""
-                    Estimado/a %s:
+        Estimado/a %s:
 
-                    Se ha generado una contraseña temporal para acceder al Sistema de Teletrabajo.
+        Se ha generado una contraseña temporal para acceder al Sistema de Teletrabajo.
 
-                    Usuario: %s
-                    Contraseña temporal: %s
+        Usuario: %s
+        Contraseña temporal: %s
 
-                    Por seguridad, se recomienda cambiar esta contraseña una vez que ingrese al sistema.
+        Por seguridad, se recomienda cambiar esta contraseña una vez que ingrese al sistema.
 
-                    Saluda atentamente,
-                    Sistema Teletrabajo
-                    """.formatted(user.getFull_name(), user.getUsername(), temporaryPassword))
+        Saluda atentamente,
+        Sistema Teletrabajo
+        """.formatted(
+                        getNombreUsuario(user),
+                        user.getEmail(),
+                        temporaryPassword
+                ))
                 .build();
 
         emailNotificationService.sendEmail(emailDto);
@@ -242,5 +246,20 @@ public class UserServiceImpl implements IUserService {
         }
 
         return password.toString();
+    }
+
+    private String getNombreUsuario(UserEntity user) {
+        if (user.getFull_name() != null && !user.getFull_name().isBlank()) {
+            return user.getFull_name();
+        }
+
+        String nombre = String.join(" ",
+                user.getFirstName() != null ? user.getFirstName() : "",
+                user.getSecondName() != null ? user.getSecondName() : "",
+                user.getFirstLastName() != null ? user.getFirstLastName() : "",
+                user.getSecondLastName() != null ? user.getSecondLastName() : ""
+        ).trim();
+
+        return nombre.isBlank() ? "Usuario/a" : nombre;
     }
 }

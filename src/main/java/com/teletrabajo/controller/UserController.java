@@ -17,13 +17,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
+
 public class UserController {
 
     @Autowired
     private UserServiceImpl service;
 
     @PostMapping
+
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO dto) {
         return ResponseEntity.ok(service.create(dto));
     }
@@ -31,33 +33,39 @@ public class UserController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<UserDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO dto) {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/findByEmail/{email}")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<List<UserDTO>> findByEmail(@PathVariable  String email) {
         return ResponseEntity.ok(service.findByEmail(email));
     }
 
 
     @GetMapping("/all")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<List<UserDTO>> getAll() {
         return ResponseEntity.ok(service.listAll());
     }
 
     @GetMapping("/getAllPaginated")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<Page<UserDTO>> getAllPaginated(
             @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(service.getAllPaginated(pageable));
@@ -65,12 +73,14 @@ public class UserController {
 
 
     /* SOFT DELETE */
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> listActive() {
         return ResponseEntity.ok(service.listActive());
     }
 
     @GetMapping("/deleted")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<List<UserDTO>> listDeleted() {
         return ResponseEntity.ok(service.listDeleted());
     }
@@ -78,12 +88,14 @@ public class UserController {
 
 
     @PostMapping("/{id}/restore")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<Void> restore(@PathVariable Integer id) {
         service.restore(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/change-password")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<String> changePassword(@PathVariable Integer id,
                                                  @RequestBody ChangePasswordDTO dto) {
         service.changePassword(id, dto);
@@ -91,6 +103,7 @@ public class UserController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
     public ResponseEntity<Page<UserDTO>> search(
             @RequestParam(required = false) String term,
             @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
