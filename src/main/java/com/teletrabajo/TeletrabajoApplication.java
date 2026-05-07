@@ -9,7 +9,7 @@ import java.util.TimeZone;
 public class TeletrabajoApplication {
 
 	public static void main(String[] args) {
-		TimeZone.setDefault(TimeZone.getTimeZone("America/Santiago"));
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Punta_Arenas"));
 		SpringApplication.run(TeletrabajoApplication.class, args);
 	}
 

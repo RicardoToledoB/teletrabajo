@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name="registers")
@@ -40,12 +41,15 @@ public class RegisterEntity {
 
     @PrePersist
     private void createdAt(){
-        this.register_datetime=LocalDateTime.now();
-        this.createdAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("America/Punta_Arenas"));
+        this.register_datetime=now;
+        this.createdAt = now;
     }
 
     @PreUpdate
     private void updatedAt(){
-        this.updatedAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("America/Punta_Arenas"));
+
+        this.updatedAt =now;
     }
 }
