@@ -14,7 +14,7 @@ public class RegisterDTO {
     private Integer id;
     private UserDTO user;
     private String state;
-    private String register_datetime;
+    private LocalDateTime register_datetime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

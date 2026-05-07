@@ -30,15 +30,17 @@ public class RegisterEntity {
 
     private String state;
 
-    private String register_datetime;
+    private LocalDateTime register_datetime;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+
     @PrePersist
     private void createdAt(){
+        this.register_datetime=LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
     }
 
