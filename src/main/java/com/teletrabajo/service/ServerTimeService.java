@@ -10,15 +10,16 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class ServerTimeService {
 
-    public ServerTimeResponseDTO getServerTime(){
+    public ServerTimeResponseDTO getServerTime() {
 
-        LocalDateTime now = LocalDateTime.now();
+        ZoneId zoneId = ZoneId.of("America/Punta_Arenas");
+        LocalDateTime now = LocalDateTime.now(zoneId);
 
         return ServerTimeResponseDTO.builder()
                 .date(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .time(now.format(DateTimeFormatter.ofPattern("HH:mm:ss")))
                 .dateTime(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .timezone(ZoneId.systemDefault().toString())
+                .timezone(zoneId.toString())
                 .build();
     }
 }
