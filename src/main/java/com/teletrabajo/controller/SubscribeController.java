@@ -56,6 +56,8 @@ public class SubscribeController {
         return ResponseEntity.noContent().build();
     }
 
+    /*   */
+
     /* SOFT DELETE */
     @GetMapping
     public ResponseEntity<List<SubscribeDTO>> listActive() {
