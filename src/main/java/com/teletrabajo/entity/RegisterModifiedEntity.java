@@ -34,6 +34,8 @@ public class RegisterModifiedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private UserEntity user;
+
+
     private String observations;
     private String register_datetime;
 
