@@ -24,6 +24,9 @@ public class UserDTO {
     private String username;
     private String password;
     private String rut;
+    private String birth_date;
+    private String contract_date;
+    private String contract_type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

@@ -189,4 +189,18 @@ public class RegisterModifiedServiceImpl implements IRegisterModifiedService {
         entity.setDeletedAt(null);
         repository.save(entity);
     }
+
+    public Page<RegisterModifiedDTO> searchByFilters(
+            Integer administratorId,
+            Integer userId,
+            String registerDatetime,
+            Pageable pageable
+    ) {
+        return repository.searchByFilters(
+                administratorId,
+                userId,
+                registerDatetime,
+                pageable
+        ).map(this::mapToDTO);
+    }
 }

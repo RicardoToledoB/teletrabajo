@@ -75,9 +75,15 @@ public class WellbeingPostulationEntity {
     @Column(name="updated_at") private LocalDateTime updatedAt;
     @Column(name="deleted_at") private LocalDateTime deletedAt;
 
+    @Column(name="current_step")
+    private Integer currentStep;
+
     @PrePersist
     public void prePersist(){
+
+
         LocalDateTime now = LocalDateTime.now();
+        if (currentStep == null) currentStep = 1;
         if (createdAt == null) createdAt = now;
         if (status == null) status = BienestarEnums.PostulationStatus.DRAFT;
         if (totalFamilyIncome == null) totalFamilyIncome = BigDecimal.ZERO;

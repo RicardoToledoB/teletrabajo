@@ -75,4 +75,21 @@ public class RegisterModifiedController {
         service.restore(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<RegisterModifiedDTO>> searchByFilters(
+            @RequestParam(required = false) Integer administratorId,
+            @RequestParam(required = false) Integer userId,
+            @RequestParam(required = false) String registerDatetime,
+            @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                service.searchByFilters(
+                        administratorId,
+                        userId,
+                        registerDatetime,
+                        pageable
+                )
+        );
+    }
 }

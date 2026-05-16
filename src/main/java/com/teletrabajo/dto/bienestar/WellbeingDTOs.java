@@ -156,6 +156,7 @@ public class WellbeingDTOs {
         private Integer stablishmentId;
         private String stablishmentName;
         private BienestarEnums.PostulationStatus status;
+        private Integer currentStep;
         private BienestarEnums.BeneficiaryType beneficiaryType;
         private Long beneficiaryFamilyMemberId;
         private AffiliateRequest affiliate;
@@ -264,5 +265,28 @@ public class WellbeingDTOs {
         private String contentType;
         private Long sizeBytes;
         private LocalDateTime uploadedAt;
+    }
+
+    @Data @Builder @NoArgsConstructor @AllArgsConstructor
+    public static class AffiliateSummaryResponse {
+        private String rut;
+        private String names;
+        private String lastNames;
+    }
+
+    @Data @Builder @NoArgsConstructor @AllArgsConstructor
+    public static class PostulationSummaryResponse {
+        private Long id;
+        private String code;
+        private BienestarEnums.PostulationStatus status;
+        private Integer currentStep;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+        private AffiliateSummaryResponse affiliate;
+    }
+
+    @Data @Builder @NoArgsConstructor @AllArgsConstructor
+    public static class UpdateCurrentStepRequest {
+        private Integer currentStep;
     }
 }

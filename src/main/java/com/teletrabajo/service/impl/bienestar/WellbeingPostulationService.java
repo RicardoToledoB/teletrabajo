@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -74,6 +76,68 @@ public class WellbeingPostulationService {
     public Page<PostulationResponse> search(Integer userId, Integer periodYear, BienestarEnums.PostulationStatus status, Pageable pageable) {
         return postulationRepository.search(userId, periodYear, status, pageable).map(this::mapPostulation);
     }
+
+    @Transactional(readOnly = true)
+    public List<PostulationSummaryResponse> getMyDrafts() {
+        UserEntity currentUser = getAuthenticatedUser();
+
+        return postulationRepository
+                .findByUserIdAndStatusAndDeletedAtIsNullOrderByUpdatedAtDescCreatedAtDesc(
+                        currentUser.getId(),
+                        BienestarEnums.PostulationStatus.DRAFT
+                )
+                .stream()
+                .map(this::mapPostulationSummary)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostulationSummaryResponse> getMyActive() {
+        UserEntity currentUser = getAuthenticatedUser();
+
+        return postulationRepository
+                .findByUserIdAndStatusInAndDeletedAtIsNullOrderByUpdatedAtDescCreatedAtDesc(
+                        currentUser.getId(),
+                        List.of(
+                                BienestarEnums.PostulationStatus.DRAFT,
+                                BienestarEnums.PostulationStatus.SUBMITTED,
+                                BienestarEnums.PostulationStatus.UNDER_REVIEW,
+                                BienestarEnums.PostulationStatus.OBSERVED
+                        )
+                )
+                .stream()
+                .map(this::mapPostulationSummary)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PostulationResponse getMyById(Long id) {
+        return mapPostulation(getMyPostulation(id));
+    }
+
+    @Transactional(readOnly = true)
+    public SummaryResponse getMySummary(Long id) {
+        return buildSummary(getMyPostulation(id));
+    }
+
+    public void deleteMyPostulation(Long id) {
+        WellbeingPostulationEntity p = getMyPostulation(id);
+        ensureDraft(p);
+        postulationRepository.delete(p);
+    }
+
+    public void updateMyCurrentStep(Long id, Integer currentStep) {
+        if (currentStep == null || currentStep < 1 || currentStep > 10) {
+            throw new RuntimeException("El paso actual no es válido");
+        }
+
+        WellbeingPostulationEntity p = getMyPostulation(id);
+        ensureDraft(p);
+        p.setCurrentStep(currentStep);
+        postulationRepository.save(p);
+    }
+
+
 
     public PostulationResponse updateAffiliate(Long id, AffiliateRequest request) {
         WellbeingPostulationEntity p = getDraftPostulation(id);
@@ -324,6 +388,43 @@ public class WellbeingPostulationService {
         return SummaryResponse.builder().postulation(mapPostulation(p)).familyMembers(members).academicInfo(academic).academicVerification(verification).incomes(incomes).expenses(expenses).healthRecords(health).housing(housing).documents(docs).requiredDocumentsTotal((long) required.size()).requiredDocumentsUploaded(required.size() - (long) pending.size()).canSubmit(pending.isEmpty() && minData).pendingRequiredDocuments(pending).build();
     }
 
+    private UserEntity getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Usuario no autenticado");
+        }
+
+        String email = authentication.getName();
+
+        return userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException("Usuario autenticado no encontrado: " + email));
+    }
+
+    private WellbeingPostulationEntity getMyPostulation(Long id) {
+        UserEntity currentUser = getAuthenticatedUser();
+
+        return postulationRepository.findByIdAndUserIdAndDeletedAtIsNull(id, currentUser.getId())
+                .orElseThrow(() -> new RuntimeException("Postulación no encontrada o no pertenece al usuario autenticado"));
+    }
+
+    private PostulationSummaryResponse mapPostulationSummary(WellbeingPostulationEntity p) {
+        return PostulationSummaryResponse.builder()
+                .id(p.getId())
+                .code(p.getCode())
+                .status(p.getStatus())
+                .currentStep(p.getCurrentStep())
+                .createdAt(p.getCreatedAt())
+                .updatedAt(p.getUpdatedAt())
+                .affiliate(AffiliateSummaryResponse.builder()
+                        .rut(p.getAffiliateRut())
+                        .names(p.getAffiliateNames())
+                        .lastNames(p.getAffiliateLastNames())
+                        .build())
+                .build();
+    }
+
+
     private WellbeingPostulationEntity getPostulation(Long id) { return postulationRepository.findById(id).orElseThrow(() -> new RuntimeException("Postulación no encontrada")); }
     private WellbeingPostulationEntity getDraftPostulation(Long id) { WellbeingPostulationEntity p = getPostulation(id); ensureDraft(p); return p; }
     private void ensureDraft(WellbeingPostulationEntity p) { if (p.getStatus() != BienestarEnums.PostulationStatus.DRAFT && p.getStatus() != BienestarEnums.PostulationStatus.OBSERVED) throw new RuntimeException("La postulación no se puede modificar en estado " + p.getStatus()); }
@@ -345,7 +446,19 @@ public class WellbeingPostulationService {
 
     private PostulationResponse mapPostulation(WellbeingPostulationEntity p) {
         UserEntity u = p.getUser();
-        return PostulationResponse.builder().id(p.getId()).code(p.getCode()).periodYear(p.getPeriodYear()).userId(u != null ? u.getId() : null).userRut(u != null ? u.getRut() : null).userFullName(u != null ? join(join(u.getFirstName(), u.getSecondName()), join(u.getFirstLastName(), u.getSecondLastName())) : null).stablishmentId(p.getStablishment()!=null?p.getStablishment().getId():null).stablishmentName(p.getStablishment()!=null?p.getStablishment().getName():null).status(p.getStatus()).beneficiaryType(p.getBeneficiaryType()).beneficiaryFamilyMemberId(p.getBeneficiaryFamilyMember()!=null?p.getBeneficiaryFamilyMember().getId():null).affiliate(AffiliateRequest.builder().rut(p.getAffiliateRut()).names(p.getAffiliateNames()).lastNames(p.getAffiliateLastNames()).phone(p.getAffiliatePhone()).email(p.getAffiliateEmail()).address(p.getAffiliateAddress()).birthDate(p.getAffiliateBirthDate()).sex(p.getAffiliateSex()).affiliateType(p.getAffiliateType()).stablishmentId(p.getStablishment()!=null?p.getStablishment().getId():null).affiliateDate(p.getAffiliateDate()).build()).totalFamilyIncome(p.getTotalFamilyIncome()).totalBasicExpenses(p.getTotalBasicExpenses()).totalEducationExpenses(p.getTotalEducationExpenses()).totalOtherExpenses(p.getTotalOtherExpenses()).totalHealthExpenses(p.getTotalHealthExpenses()).totalFamilyExpenses(p.getTotalFamilyExpenses()).submittedAt(p.getSubmittedAt()).createdAt(p.getCreatedAt()).updatedAt(p.getUpdatedAt()).build();
+        return PostulationResponse.builder()
+                .id(p.getId())
+                .code(p.getCode())
+                .periodYear(p.getPeriodYear())
+                .userId(u != null ? u.getId() : null)
+                .userRut(u != null ? u.getRut() : null)
+                .userFullName(u != null ? join(join(u.getFirstName(), u.getSecondName()), join(u.getFirstLastName(), u.getSecondLastName())) : null)
+                .stablishmentId(p.getStablishment()!=null?p.getStablishment().getId():null)
+                .stablishmentName(p.getStablishment()!=null?p.getStablishment().getName():null)
+                .status(p.getStatus())
+                .currentStep(p.getCurrentStep())
+                .beneficiaryType(p.getBeneficiaryType())
+                .beneficiaryFamilyMemberId(p.getBeneficiaryFamilyMember()!=null?p.getBeneficiaryFamilyMember().getId():null).affiliate(AffiliateRequest.builder().rut(p.getAffiliateRut()).names(p.getAffiliateNames()).lastNames(p.getAffiliateLastNames()).phone(p.getAffiliatePhone()).email(p.getAffiliateEmail()).address(p.getAffiliateAddress()).birthDate(p.getAffiliateBirthDate()).sex(p.getAffiliateSex()).affiliateType(p.getAffiliateType()).stablishmentId(p.getStablishment()!=null?p.getStablishment().getId():null).affiliateDate(p.getAffiliateDate()).build()).totalFamilyIncome(p.getTotalFamilyIncome()).totalBasicExpenses(p.getTotalBasicExpenses()).totalEducationExpenses(p.getTotalEducationExpenses()).totalOtherExpenses(p.getTotalOtherExpenses()).totalHealthExpenses(p.getTotalHealthExpenses()).totalFamilyExpenses(p.getTotalFamilyExpenses()).submittedAt(p.getSubmittedAt()).createdAt(p.getCreatedAt()).updatedAt(p.getUpdatedAt()).build();
     }
     private FamilyMemberResponse mapFamilyMember(WellbeingFamilyMemberEntity e){ return FamilyMemberResponse.builder().id(e.getId()).rut(e.getRut()).names(e.getNames()).lastNames(e.getLastNames()).parentTypeId(e.getParentType()!=null?e.getParentType().getId():null).parentTypeName(e.getParentType()!=null?e.getParentType().getName():null).previtionId(e.getPrevition()!=null?e.getPrevition().getId():null).incomeTypeId(e.getIncomeType()!=null?e.getIncomeType().getId():null).monthlyIncome(e.getMonthlyIncome()).build(); }
     private AcademicInfoResponse mapAcademicInfo(WellbeingAcademicInfoEntity e){ return AcademicInfoResponse.builder().id(e.getId()).institution(e.getInstitution()).career(e.getCareer()).studyLevelId(e.getStudyLevel()!=null?e.getStudyLevel().getId():null).studyLevelName(e.getStudyLevel()!=null?e.getStudyLevel().getName():null).currentSemester(e.getCurrentSemester()).careerDurationSemesters(e.getCareerDurationSemesters()).studiesInRegion(e.getStudiesInRegion()).hadPreviousBenefit(e.getHadPreviousBenefit()).build(); }

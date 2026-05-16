@@ -28,4 +28,19 @@ public interface WellbeingPostulationRepository extends JpaRepository<WellbeingP
                                              @Param("status") BienestarEnums.PostulationStatus status,
                                              Pageable pageable);
 
+    List<WellbeingPostulationEntity> findByUserIdAndStatusAndDeletedAtIsNullOrderByUpdatedAtDescCreatedAtDesc(
+            Integer userId,
+            BienestarEnums.PostulationStatus status
+    );
+
+    List<WellbeingPostulationEntity> findByUserIdAndStatusInAndDeletedAtIsNullOrderByUpdatedAtDescCreatedAtDesc(
+            Integer userId,
+            List<BienestarEnums.PostulationStatus> statuses
+    );
+
+    Optional<WellbeingPostulationEntity> findByIdAndUserIdAndDeletedAtIsNull(
+            Long id,
+            Integer userId
+    );
+
 }

@@ -36,6 +36,42 @@ public class WellbeingPostulationController {
         return ResponseEntity.ok(service.search(userId, periodYear, status, pageable));
     }
 
+    @GetMapping("/my-drafts")
+    public ResponseEntity<List<PostulationSummaryResponse>> getMyDrafts() {
+        return ResponseEntity.ok(service.getMyDrafts());
+    }
+
+    @GetMapping("/my-active")
+    public ResponseEntity<List<PostulationSummaryResponse>> getMyActive() {
+        return ResponseEntity.ok(service.getMyActive());
+    }
+
+    @GetMapping("/my/{id}")
+    public ResponseEntity<PostulationResponse> getMyById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getMyById(id));
+    }
+
+    @GetMapping("/my/{id}/summary")
+    public ResponseEntity<SummaryResponse> getMySummary(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getMySummary(id));
+    }
+
+    @DeleteMapping("/my/{id}")
+    public ResponseEntity<Void> deleteMyPostulation(@PathVariable Long id) {
+        service.deleteMyPostulation(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/my/{id}/step")
+    public ResponseEntity<Void> updateMyCurrentStep(
+            @PathVariable Long id,
+            @RequestBody UpdateCurrentStepRequest request
+    ) {
+        service.updateMyCurrentStep(id, request.getCurrentStep());
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<PostulationResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));

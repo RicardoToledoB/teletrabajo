@@ -39,6 +39,9 @@ public class UserServiceImpl implements IUserService {
                 .full_name(entity.getFull_name())
                 .email(entity.getEmail())
                 .username(entity.getUsername())
+                .birth_date(entity.getBirth_date())
+                .contract_date(entity.getContract_date())
+                .contract_type(entity.getContract_type())
                 .password(null)
                 .rut(entity.getRut())
                 .createdAt(entity.getCreatedAt())
@@ -59,6 +62,9 @@ public class UserServiceImpl implements IUserService {
                 .username(dto.getUsername())
                 .password(dto.getPassword())
                 .rut(dto.getRut())
+                .birth_date(dto.getBirth_date())
+                .contract_date(dto.getContract_date())
+                .contract_type(dto.getContract_type())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .deletedAt(dto.getDeletedAt())
@@ -90,6 +96,9 @@ public class UserServiceImpl implements IUserService {
         entity.setSecondName(dto.getSecondName());
         entity.setFirstLastName(dto.getFirstLastName());
         entity.setSecondLastName(dto.getSecondLastName());
+        entity.setBirth_date(dto.getBirth_date());
+        entity.setContract_date(dto.getContract_date());
+        entity.setContract_type(dto.getContract_type());
         if(dto.getSecondName()!=null){
             entity.setFull_name(dto.getFirstName()+" "+dto.getSecondName()+" "+dto.getFirstLastName()+" "+dto.getSecondLastName());
         }else{
