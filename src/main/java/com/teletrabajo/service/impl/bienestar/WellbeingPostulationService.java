@@ -187,17 +187,6 @@ public class WellbeingPostulationService {
         postulationRepository.delete(p);
     }
 
-    /**
-     * Eliminación lógica administrativa de postulaciones de terceros.
-     * No valida propietario ni estado DRAFT, porque está pensada para perfiles de gestión
-     * como SUPERVISOR_BIENESTAR. Hibernate aplica @SQLDelete sobre wellbeing_postulations,
-     * por lo que solo completa deleted_at y no borra físicamente el registro.
-     */
-    public void deletePostulation(Long id) {
-        WellbeingPostulationEntity p = getPostulation(id);
-        postulationRepository.delete(p);
-    }
-
     public void updateMyCurrentStep(Long id, Integer currentStep) {
         if (currentStep == null || currentStep < 1 || currentStep > 11) {
             throw new RuntimeException("El paso actual no es válido");
@@ -224,6 +213,27 @@ public class WellbeingPostulationService {
         p.setIsSingleParentHome(Boolean.TRUE.equals(request.getIsSingleParentHome()));
 
         return mapPostulation(postulationRepository.save(p));
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostulationResponse> getDeletedPostulations(Integer userId, Integer periodYear, BienestarEnums.PostulationStatus status) {
+        return postulationRepository.findAllDeletedIncludingSoftDeleted()
+                .stream()
+                .filter(p -> userId == null || (p.getUser() != null && userId.equals(p.getUser().getId())))
+                .filter(p -> periodYear == null || periodYear.equals(p.getPeriodYear()))
+                .filter(p -> status == null || status == p.getStatus())
+                .map(this::mapPostulation)
+                .toList();
+    }
+
+    @Transactional
+    public void deletePostulation(Long id) {
+        WellbeingPostulationEntity p = postulationRepository.findAnyByIdIncludingDeleted(id)
+                .orElseThrow(() -> new RuntimeException("Postulación no encontrada"));
+
+        if (p.getDeletedAt() == null) {
+            postulationRepository.delete(p);
+        }
     }
 
     public void restorePostulation(Long id) {
@@ -944,7 +954,7 @@ public class WellbeingPostulationService {
                 .currentStep(p.getCurrentStep())
                 .isSingleParentHome(p.getIsSingleParentHome())
                 .beneficiaryType(p.getBeneficiaryType())
-                .beneficiaryFamilyMemberId(p.getBeneficiaryFamilyMember()!=null?p.getBeneficiaryFamilyMember().getId():null).affiliate(AffiliateRequest.builder().rut(p.getAffiliateRut()).names(p.getAffiliateNames()).lastNames(p.getAffiliateLastNames()).phone(p.getAffiliatePhone()).email(p.getAffiliateEmail()).address(p.getAffiliateAddress()).birthDate(p.getAffiliateBirthDate()).sex(p.getAffiliateSex()).affiliateType(p.getAffiliateType()).stablishmentId(p.getStablishment()!=null?p.getStablishment().getId():null).affiliateDate(p.getAffiliateDate()).build()).totalFamilyIncome(p.getTotalFamilyIncome()).totalBasicExpenses(p.getTotalBasicExpenses()).totalEducationExpenses(p.getTotalEducationExpenses()).totalOtherExpenses(p.getTotalOtherExpenses()).totalHealthExpenses(p.getTotalHealthExpenses()).totalFamilyExpenses(p.getTotalFamilyExpenses()).submittedAt(p.getSubmittedAt()).createdAt(p.getCreatedAt()).updatedAt(p.getUpdatedAt()).build();
+                .beneficiaryFamilyMemberId(p.getBeneficiaryFamilyMember()!=null?p.getBeneficiaryFamilyMember().getId():null).affiliate(AffiliateRequest.builder().rut(p.getAffiliateRut()).names(p.getAffiliateNames()).lastNames(p.getAffiliateLastNames()).phone(p.getAffiliatePhone()).email(p.getAffiliateEmail()).address(p.getAffiliateAddress()).birthDate(p.getAffiliateBirthDate()).sex(p.getAffiliateSex()).affiliateType(p.getAffiliateType()).stablishmentId(p.getStablishment()!=null?p.getStablishment().getId():null).affiliateDate(p.getAffiliateDate()).build()).totalFamilyIncome(p.getTotalFamilyIncome()).totalBasicExpenses(p.getTotalBasicExpenses()).totalEducationExpenses(p.getTotalEducationExpenses()).totalOtherExpenses(p.getTotalOtherExpenses()).totalHealthExpenses(p.getTotalHealthExpenses()).totalFamilyExpenses(p.getTotalFamilyExpenses()).submittedAt(p.getSubmittedAt()).createdAt(p.getCreatedAt()).updatedAt(p.getUpdatedAt()).deletedAt(p.getDeletedAt()).build();
     }
     private FamilyMemberResponse mapFamilyMember(WellbeingFamilyMemberEntity e){
         return FamilyMemberResponse.builder()

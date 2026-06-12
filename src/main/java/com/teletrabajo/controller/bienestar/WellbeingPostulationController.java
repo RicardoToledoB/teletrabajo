@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/wellbeing/postulations")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA','SUPERVISOR_BIENESTAR')")
+@PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
 public class WellbeingPostulationController {
 
     private final WellbeingPostulationService service;
@@ -39,6 +39,18 @@ public class WellbeingPostulationController {
             @RequestParam(required = false) BienestarEnums.PostulationStatus status,
             @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(service.search(userId, periodYear, status, pageable));
+    }
+
+    /**
+     * Lista postulaciones eliminadas logicamente.
+     * Permite al frontend mostrar registros con deleted_at y restaurarlos con POST /{id}/restore.
+     */
+    @GetMapping("/deleted")
+    public ResponseEntity<List<PostulationResponse>> getDeletedPostulations(
+            @RequestParam(required = false) Integer userId,
+            @RequestParam(required = false) Integer periodYear,
+            @RequestParam(required = false) BienestarEnums.PostulationStatus status) {
+        return ResponseEntity.ok(service.getDeletedPostulations(userId, periodYear, status));
     }
 
     @GetMapping("/my-drafts")
@@ -91,14 +103,15 @@ public class WellbeingPostulationController {
         return ResponseEntity.ok(service.updateMyFamilyGroup(id, request));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA','SUPERVISOR_BIENESTAR')")
+    /**
+     * Eliminacion logica administrativa/general de postulaciones de terceros.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePostulation(@PathVariable Long id) {
         service.deletePostulation(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA','SUPERVISOR_BIENESTAR')")
     @PostMapping("/{id}/restore")
     public ResponseEntity<Void> restorePostulation(@PathVariable Long id) {
         service.restorePostulation(id);

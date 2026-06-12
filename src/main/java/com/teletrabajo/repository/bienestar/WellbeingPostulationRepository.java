@@ -58,4 +58,7 @@ public interface WellbeingPostulationRepository extends JpaRepository<WellbeingP
     @Query(value = "SELECT * FROM wellbeing_postulations WHERE id = :id", nativeQuery = true)
     Optional<WellbeingPostulationEntity> findAnyByIdIncludingDeleted(@Param("id") Long id);
 
+    @Query(value = "SELECT * FROM wellbeing_postulations WHERE deleted_at IS NOT NULL ORDER BY deleted_at DESC, id DESC", nativeQuery = true)
+    List<WellbeingPostulationEntity> findAllDeletedIncludingSoftDeleted();
+
 }
