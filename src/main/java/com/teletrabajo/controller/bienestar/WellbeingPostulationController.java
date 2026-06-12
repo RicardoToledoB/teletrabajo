@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/api/v1/wellbeing/postulations")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA')")
+@PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA','SUPERVISOR_BIENESTAR')")
 public class WellbeingPostulationController {
 
     private final WellbeingPostulationService service;
@@ -91,6 +91,14 @@ public class WellbeingPostulationController {
         return ResponseEntity.ok(service.updateMyFamilyGroup(id, request));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA','SUPERVISOR_BIENESTAR')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePostulation(@PathVariable Long id) {
+        service.deletePostulation(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','ADMINISTRATIVO','SUPERVISOR','JEFATURA','SUPERVISOR_BIENESTAR')")
     @PostMapping("/{id}/restore")
     public ResponseEntity<Void> restorePostulation(@PathVariable Long id) {
         service.restorePostulation(id);

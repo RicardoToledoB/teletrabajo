@@ -187,6 +187,17 @@ public class WellbeingPostulationService {
         postulationRepository.delete(p);
     }
 
+    /**
+     * Eliminación lógica administrativa de postulaciones de terceros.
+     * No valida propietario ni estado DRAFT, porque está pensada para perfiles de gestión
+     * como SUPERVISOR_BIENESTAR. Hibernate aplica @SQLDelete sobre wellbeing_postulations,
+     * por lo que solo completa deleted_at y no borra físicamente el registro.
+     */
+    public void deletePostulation(Long id) {
+        WellbeingPostulationEntity p = getPostulation(id);
+        postulationRepository.delete(p);
+    }
+
     public void updateMyCurrentStep(Long id, Integer currentStep) {
         if (currentStep == null || currentStep < 1 || currentStep > 11) {
             throw new RuntimeException("El paso actual no es válido");
