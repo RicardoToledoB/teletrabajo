@@ -71,6 +71,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/recover-password").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/time/server").permitAll()
                         // protegidos
                         .anyRequest().authenticated()
                 );
