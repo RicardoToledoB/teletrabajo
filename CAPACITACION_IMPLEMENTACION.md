@@ -1,14 +1,7 @@
-# Módulo Capacitación - primera integración backend
+# Capacitación — versión ampliada 12/11/2026
 
-Se incorporan entidades JPA, repositorios y endpoints REST al proyecto original, conservando Teletrabajo y Bienestar.
+Consultar `docs/CAPACITACION_API_FRONTEND.md` para contrato, seguridad, configuración y QA. Migración aditiva: `docs/sql/2026_11_12_capacitacion_ampliacion_mysql.sql`.
 
-## Endpoints
-GET/POST /api/v1/capacitacion/actividades
-GET/POST /api/v1/capacitacion/participantes
-GET/POST /api/v1/capacitacion/firmantes
-GET /api/v1/capacitacion/certificados
-POST /api/v1/capacitacion/certificados/emitir/{participantId}
-POST /api/v1/capacitacion/certificados/{id}/revocar
-GET /api/v1/public/capacitacion/verificar/{code}
+Mantiene los endpoints y corrige el desfase con la propuesta del 29/10: modalidad/ejecución, vinculación opcional, asistencia/nota/estado, vigencia/posición de firmas, numeración, snapshots, PDF permanente, SHA-256, QR y revocación. No altera los demás módulos.
 
-**Alcance:** primera integración estructural. Aún NO implementa generación de PDF, carga CSV, QR gráfico, carga segura de firmas, filtros/paginación ni auditoría completa. NO desplegar a producción sin pruebas de permisos, validaciones y revisión de datos personales. Las tablas se generan según la configuración JPA existente. La emisión actual registra un código, pero NO representa un certificado oficial firmado.
+**No habilitar emisión oficial sin aprobación institucional.** La versión requiere configuración de operadores y activos de firma. El PDF con imagen no equivale a FEA.

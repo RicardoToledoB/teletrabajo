@@ -79,6 +79,8 @@ class ModuleAuthorizationTest {
         when(processes.findById(1L)).thenReturn(Optional.of(p));
         when(requirements.save(any(AcrRequirement.class))).thenAnswer(i -> i.getArgument(0));
         when(cycles.save(any(QualCycle.class))).thenAnswer(i -> i.getArgument(0));
+        CapActivity activity = new CapActivity(); activity.id = 1L; activity.title = "Prueba";
+        when(activities.findById(1L)).thenReturn(Optional.of(activity));
         when(activities.save(any(CapActivity.class))).thenAnswer(i -> i.getArgument(0));
         when(participants.save(any(CapParticipant.class))).thenAnswer(i -> i.getArgument(0));
         when(signatories.save(any(CapSignatory.class))).thenAnswer(i -> i.getArgument(0));
@@ -110,14 +112,14 @@ class ModuleAuthorizationTest {
                     {"year":2027,"startAt":"2027-01-01T00:00:00","endAt":"2027-12-31T23:59:00","rulesVersion":"QA"}
                     """)).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("BORRADOR"));
             mvc.perform(post("/api/v1/capacitacion/actividades").header("Authorization", token)
-                    .contentType(MediaType.APPLICATION_JSON).content("{\"title\":\"Prueba\"}"))
-                    .andExpect(status().isOk());
+                    .contentType(MediaType.APPLICATION_JSON).content("{\"title\":\"Prueba\",\"code\":\"QA\",\"modality\":\"VIRTUAL\",\"executionNumber\":1}"))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.modality").value("VIRTUAL"));
             mvc.perform(post("/api/v1/capacitacion/participantes").header("Authorization", token)
                     .contentType(MediaType.APPLICATION_JSON).content("""
-                    {"rut":"RUT_DE_PRUEBA","fullName":"Participante de prueba","activity":{"id":1}}
+                    {"rut":"RUT_DE_PRUEBA","fullName":"Participante de prueba","activity":{"id":1,"title":"Prueba"},"attendancePercent":90.5,"grade":6.5,"status":"COMPLETADO"}
                     """)).andExpect(status().isOk());
             mvc.perform(post("/api/v1/capacitacion/firmantes").header("Authorization", token)
-                    .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                    .contentType(MediaType.APPLICATION_JSON).content("{\"fullName\":\"Firmante de prueba\"}"))
                     .andExpect(status().isOk());
             mvc.perform(post("/api/v1/capacitacion/certificados/emitir/1").header("Authorization", token)).andExpect(status().isOk());
             mvc.perform(post("/api/v1/capacitacion/certificados/1/revocar").header("Authorization", token)).andExpect(status().isOk());

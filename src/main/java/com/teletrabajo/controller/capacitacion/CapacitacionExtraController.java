@@ -15,7 +15,7 @@ public class CapacitacionExtraController {
  @Value("${capacitacion.verification-base-url:https://teletrabajo.dssm.cl/api/v1/public/capacitacion/verificar}") private String verificationBaseUrl;
  public CapacitacionExtraController(CapacitacionDocumentsService d,CapacitacionImportService i){documents=d;imports=i;}
  @GetMapping(value="/certificados/{id}/pdf",produces=MediaType.APPLICATION_PDF_VALUE)
- public ResponseEntity<byte[]> pdf(@PathVariable Long id){return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=certificado-"+id+".pdf").body(documents.pdf(id,verificationBaseUrl));}
+ public ResponseEntity<byte[]> pdf(@PathVariable Long id){return ResponseEntity.ok().cacheControl(CacheControl.noStore()).header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=certificado-"+id+".pdf").body(documents.pdf(id,verificationBaseUrl));}
  @GetMapping(value="/certificados/{id}/qr",produces=MediaType.IMAGE_PNG_VALUE)
  public byte[] qr(@PathVariable Long id){return documents.qr(id,verificationBaseUrl);}
  @PostMapping(value="/actividades/{activityId}/importar-participantes",consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
