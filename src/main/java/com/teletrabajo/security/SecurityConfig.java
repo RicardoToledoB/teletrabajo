@@ -1,6 +1,7 @@
 package com.teletrabajo.security;
 
 
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
@@ -55,6 +56,9 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+                        // No enmascarar errores MVC/JPA con un 401 durante el despacho interno.
+                        // Una solicitud HTTP directa a /error sigue requiriendo autenticación.
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 
                         // 🔥 PRE-FLIGHT (OBLIGATORIO PARA ANGULAR)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

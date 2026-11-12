@@ -13,6 +13,10 @@ import com.teletrabajo.repository.calificaciones.QualCycleRepository;
 import com.teletrabajo.repository.capacitacion.*;
 import com.teletrabajo.service.capacitacion.*;
 import jakarta.servlet.Filter;
+import jakarta.servlet.DispatcherType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,12 +142,27 @@ class ModuleAuthorizationTest {
         mvc.perform(get("/api/v1/public/capacitacion/verificar/test")).andExpect(status().isOk());
     }
 
+    @Test void despachoInternoDeErroresNoSeEnmascaraComo401() throws Exception {
+        mvc.perform(get("/error").with(request -> {
+            request.setDispatcherType(DispatcherType.ERROR);
+            return request;
+        })).andExpect(status().isBadRequest());
+        mvc.perform(get("/error")).andExpect(status().isUnauthorized());
+    }
+
+    @RestController
+    static class TestErrorController {
+        @RequestMapping("/error") ResponseEntity<Void> error() {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @TestConfiguration
     @EnableWebMvc
     @EnableWebSecurity
     @Import({SecurityConfig.class, CorsConfig.class, JwtAuthenticationFilter.class, JwtService.class,
             AcreditacionController.class, CalificacionesController.class, CapacitacionController.class,
-            CapacitacionExtraController.class, CapacitacionVerificationController.class})
+            CapacitacionExtraController.class, CapacitacionVerificationController.class, TestErrorController.class})
     static class Config {
         @Bean UserDetailsService userDetailsService() {
             return email -> {
