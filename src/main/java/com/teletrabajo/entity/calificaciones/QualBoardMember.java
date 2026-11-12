@@ -8,6 +8,7 @@ public class QualBoardMember {
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) public Long id;
   public Long boardId;
   public Integer userId;
+  @Column(name="member_function")
   public String function;
   public LocalDate validFrom;
   public Boolean recused;
