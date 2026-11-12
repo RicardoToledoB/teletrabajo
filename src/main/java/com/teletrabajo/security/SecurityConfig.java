@@ -73,6 +73,12 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/recover-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/time/server").permitAll()
+                        // Módulos de Gestión de Personas: todos los roles, JWT obligatorio.
+                        .requestMatchers(
+                                "/api/v1/acreditacion/**",
+                                "/api/v1/calificaciones/**",
+                                "/api/v1/capacitacion/**"
+                        ).authenticated()
                         // protegidos
                         .anyRequest().authenticated()
                 );

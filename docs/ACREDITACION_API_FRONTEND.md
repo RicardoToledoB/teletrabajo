@@ -13,9 +13,9 @@ Base autenticada: `/api/v1/acreditacion`
 | Método | Ruta | Descripción | Seguridad |
 |---|---|---|---|
 | GET | `/convocatorias` | Lista convocatorias | JWT |
-| POST | `/convocatorias` | Crea convocatoria PROGRAMADA | autoridad `ACR_REFERENTE` |
+| POST | `/convocatorias` | Crea convocatoria PROGRAMADA | JWT (cualquier rol) |
 | GET | `/convocatorias/{id}/requisitos` | Requisitos de una convocatoria | JWT |
-| POST | `/convocatorias/{id}/requisitos` | Agrega requisito mientras PROGRAMADA | autoridad `ACR_REFERENTE` |
+| POST | `/convocatorias/{id}/requisitos` | Agrega requisito mientras PROGRAMADA | JWT (cualquier rol) |
 | GET | `/mis-postulaciones` | Expedientes del usuario autenticado | JWT |
 | POST | `/convocatorias/{id}/postulaciones` | Crea borrador si convocatoria ABIERTA y en plazo | JWT |
 | GET | `/postulaciones/{id}` | Consulta solo del titular | JWT + propiedad |
@@ -32,7 +32,7 @@ Modalidades iniciales: `OBLIGACION`, `EXCELENCIA`. Los códigos de profesión y 
 
 ## Seguridad y pendientes críticos
 
-- La autoridad `ACR_REFERENTE` **no se asigna automáticamente**. Debe definirse su mapeo autorizado en el esquema existente de roles; sin él, los POST administrativos responderán 403.
+- Los endpoints del módulo aceptan cualquier usuario autenticado con JWT, sin exigir `ACR_REFERENTE`. Se conserva la propiedad de las postulaciones y las validaciones de negocio.
 - No existen aún endpoints de apertura/cierre de convocatorias; la creación de borradores requiere estado ABIERTA y por tanto queda bloqueada hasta desarrollar la transición autorizada.
 - Faltan: datos y snapshot al presentar; anexos PDF y hash; admisibilidad; Comisión, puntajes y acta; apelaciones; decisión del Director; resoluciones; certificados, firma y QR; auditoría de cambios completa; reportes; notificaciones; pruebas automatizadas.
 - No hay endpoint público nuevo, ni exposición de datos personales.

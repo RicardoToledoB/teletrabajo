@@ -1,6 +1,6 @@
 # API Certificados de Capacitación — versión de integración
 
-Base: `/api/v1/capacitacion`. Requiere JWT excepto consulta pública de verificación. Escrituras requieren rol `ADMIN` según los controladores.
+Base: `/api/v1/capacitacion`. Requiere JWT excepto consulta pública de verificación. Lecturas y escrituras admiten cualquier usuario autenticado, sin exigir rol específico.
 
 ## Endpoints
 

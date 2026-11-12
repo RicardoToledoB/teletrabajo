@@ -2,7 +2,6 @@ package com.teletrabajo.controller.capacitacion;
 import com.teletrabajo.service.capacitacion.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +19,5 @@ public class CapacitacionExtraController {
  @GetMapping(value="/certificados/{id}/qr",produces=MediaType.IMAGE_PNG_VALUE)
  public byte[] qr(@PathVariable Long id){return documents.qr(id,verificationBaseUrl);}
  @PostMapping(value="/actividades/{activityId}/importar-participantes",consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
- @PreAuthorize("hasRole('ADMIN')")
  public Map<String,Object> csv(@PathVariable Long activityId,@RequestParam("file") MultipartFile file,Authentication authentication)throws IOException{return imports.importParticipants(activityId,file,authentication==null?"desconocido":authentication.getName());}
 }

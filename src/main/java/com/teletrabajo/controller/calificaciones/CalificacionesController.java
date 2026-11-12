@@ -2,16 +2,14 @@ package com.teletrabajo.controller.calificaciones;
 import com.teletrabajo.entity.calificaciones.QualCycle;
 import com.teletrabajo.repository.calificaciones.QualCycleRepository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/** API inicial y aislada: solo gestión de ciclos BORRADOR con ADMIN para pruebas sintéticas. */
+/** API inicial y aislada: solo gestión de ciclos BORRADOR para usuarios autenticados. */
 @RestController
 @RequestMapping("/api/v1/calificaciones")
-@PreAuthorize("hasRole('ADMIN')")
 public class CalificacionesController {
  private final QualCycleRepository cycles;
  public CalificacionesController(QualCycleRepository cycles){this.cycles=cycles;}

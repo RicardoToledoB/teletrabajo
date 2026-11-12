@@ -4,13 +4,13 @@
 Primera integración técnica en el backend de Gestión de Personas. Conserva los módulos existentes. **No está lista para producción**: falta revisión normativa, roles funcionales, migraciones controladas, seguridad por expediente, auditoría, documentos, validaciones y pruebas de regresión.
 
 ### Base
-`/api/v1/calificaciones` — requiere JWT y rol `ADMIN` (exclusivamente para pruebas sintéticas autorizadas).
+`/api/v1/calificaciones` — requiere JWT válido; no exige un rol específico. Solo ciclos en borrador.
 
 | Método | Ruta | Estado |
 |---|---|---|
-| GET | `/ciclos` | Implementado; ADMIN |
-| GET | `/ciclos/{id}` | Implementado; ADMIN |
-| POST | `/ciclos` | Implementado; crea únicamente BORRADOR; ADMIN |
+| GET | `/ciclos` | Implementado; JWT (cualquier rol) |
+| GET | `/ciclos/{id}` | Implementado; JWT (cualquier rol) |
+| POST | `/ciclos` | Implementado; crea únicamente BORRADOR; JWT (cualquier rol) |
 
 Ejemplo POST `/api/v1/calificaciones/ciclos`:
 ```json

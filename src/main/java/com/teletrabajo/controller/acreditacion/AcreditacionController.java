@@ -2,7 +2,6 @@ package com.teletrabajo.controller.acreditacion;
 import com.teletrabajo.entity.acreditacion.*;
 import com.teletrabajo.repository.acreditacion.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,12 +24,12 @@ public class AcreditacionController {
  }
  private void audit(String action,Long process,Long application,Integer actor){AcrAuditEvent e=new AcrAuditEvent();e.action=action;e.processId=process;e.applicationId=application;e.actorUserId=actor;e.occurredAt=LocalDateTime.now();audits.save(e);}
  @GetMapping("/convocatorias") public List<AcrProcess> list(){return processes.findAll();}
- @PostMapping("/convocatorias") @PreAuthorize("hasAuthority('ACR_REFERENTE')") public AcrProcess create(@RequestBody AcrProcess request,Authentication auth){
+ @PostMapping("/convocatorias") public AcrProcess create(@RequestBody AcrProcess request,Authentication auth){
   if(request.year==null||request.title==null||request.title.isBlank()||request.opensAt==null||request.closesAt==null||!request.closesAt.isAfter(request.opensAt))throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Convocatoria o fechas inválidas");
   AcrProcess p=new AcrProcess();p.year=request.year;p.title=request.title;p.legalBasis=request.legalBasis;p.opensAt=request.opensAt;p.closesAt=request.closesAt;p.status="PROGRAMADA";p.createdBy=uid(auth);p=processes.save(p);audit("CREAR_CONVOCATORIA",p.id,null,p.createdBy);return p;
  }
  @GetMapping("/convocatorias/{id}/requisitos") public List<AcrRequirement> req(@PathVariable Long id){if(!processes.existsById(id))throw new ResponseStatusException(HttpStatus.NOT_FOUND);return requirements.findByProcessId(id);}
- @PostMapping("/convocatorias/{id}/requisitos") @PreAuthorize("hasAuthority('ACR_REFERENTE')") public AcrRequirement addReq(@PathVariable Long id,@RequestBody AcrRequirement req,Authentication auth){
+ @PostMapping("/convocatorias/{id}/requisitos") public AcrRequirement addReq(@PathVariable Long id,@RequestBody AcrRequirement req,Authentication auth){
   AcrProcess p=processes.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));if(!"PROGRAMADA".equals(p.status))throw new ResponseStatusException(HttpStatus.CONFLICT,"Convocatoria no editable");
   AcrRequirement r=new AcrRequirement();r.processId=id;r.modality=req.modality;r.professionCode=req.professionCode;r.requirementKey=req.requirementKey;r.title=req.title;r.required=req.required;r.orderIndex=req.orderIndex;r.validFrom=req.validFrom;r.validTo=req.validTo;r=requirements.save(r);audit("CREAR_REQUISITO",id,null,uid(auth));return r;
  }
