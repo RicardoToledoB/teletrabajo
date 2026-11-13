@@ -1,3 +1,7 @@
+# Documento histórico (entrega inicial)
+
+**Actualización:** consultar `ACREDITACION_F01_ENTREGA_20261113.md` para los nuevos contratos F01. Los estados y pendientes de este documento describen la entrega anterior.
+
 # Acreditación Ley Médica — Entrega inicial backend / Angular
 
 ## Estado de esta entrega

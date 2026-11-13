@@ -49,7 +49,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringJUnitWebConfig(ModuleAuthorizationTest.Config.class)
 @TestPropertySource(properties = {
         "app.jwt.secret=clave-solo-para-pruebas-unitarias-de-autorizacion-2026",
-        "app.jwt.expiration-ms=3600000"
+        "app.jwt.expiration-ms=3600000",
+        "acreditacion.official-operators=ADMIN@example.test"
 })
 class ModuleAuthorizationTest {
     @Autowired WebApplicationContext context;
@@ -75,8 +76,9 @@ class ModuleAuthorizationTest {
         when(processes.save(any(AcrProcess.class))).thenAnswer(i -> {
             AcrProcess p = i.getArgument(0); p.id = 1L; return p;
         });
-        AcrProcess p = new AcrProcess(); p.id = 1L; p.status = "PROGRAMADA";
+        AcrProcess p = new AcrProcess(); p.id = 1L; p.status = "PROGRAMADA"; p.createdBy = 10;
         when(processes.findById(1L)).thenReturn(Optional.of(p));
+        when(processes.findForUpdate(1L)).thenReturn(Optional.of(p));
         when(requirements.save(any(AcrRequirement.class))).thenAnswer(i -> i.getArgument(0));
         when(cycles.save(any(QualCycle.class))).thenAnswer(i -> i.getArgument(0));
         CapActivity activity = new CapActivity(); activity.id = 1L; activity.title = "Prueba";
@@ -127,6 +129,23 @@ class ModuleAuthorizationTest {
                     .file(new MockMultipartFile("file", "qa.csv", "text/csv", new byte[]{1}))
                     .header("Authorization", token)).andExpect(status().isOk());
         }
+    }
+
+    @Test void convocatoriaF01PersisteCamposYRespetaPropiedad() throws Exception {
+        String token=bearer("FUNCIONARIO");
+        String payload="""
+        {"year":2099,"title":"F01","legalBasis":"Bases","professions":["Medicina","Odontología"],"modalities":["Obligación","Excelencia"],"opensAt":"2099-03-01T09:00:00","closesAt":"2099-03-31T17:00:00","reviewStartsAt":"2099-04-01","reviewDeadlineAt":"2099-04-10","appealOpensAt":"2099-04-11","appealClosesAt":"2099-04-18","admissibilityDays":5,"admissibilityDayType":"habiles","notice":"Aviso","status":"BORRADOR"}
+        """;
+        mvc.perform(post("/api/v1/acreditacion/convocatorias").header("Authorization",token).contentType(MediaType.APPLICATION_JSON).content(payload))
+          .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("BORRADOR")).andExpect(jsonPath("$.professions[1]").value("Odontología"))
+          .andExpect(jsonPath("$.admissibilityDays").value(5)).andExpect(jsonPath("$.notice").value("Aviso")).andExpect(jsonPath("$.reviewStartsAt").exists());
+        mvc.perform(post("/api/v1/acreditacion/convocatorias/1/publicar").header("Authorization",token)).andExpect(status().isForbidden());
+        AcrProcess owned=new AcrProcess();owned.id=1L;owned.createdBy=20;owned.status="BORRADOR";
+        when(processes.findForUpdate(1L)).thenReturn(Optional.of(owned));
+        mvc.perform(put("/api/v1/acreditacion/convocatorias/1").header("Authorization",token).contentType(MediaType.APPLICATION_JSON).content(payload)).andExpect(status().isForbidden());
+        owned.createdBy=10;
+        mvc.perform(put("/api/v1/acreditacion/convocatorias/1").header("Authorization",token).contentType(MediaType.APPLICATION_JSON).content(payload)).andExpect(status().isOk()).andExpect(jsonPath("$.modalities[0]").value("Obligación"));
+        mvc.perform(post("/api/v1/acreditacion/convocatorias/1/publicar").header("Authorization",bearer("ADMIN"))).andExpect(status().isOk()).andExpect(jsonPath("$.publishedAt").exists());
     }
 
     @Test void sinTokenOConTokenInvalidoNoHayAcceso() throws Exception {
