@@ -12,7 +12,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(properties={"app.data-seeder.enabled=false"})
+@SpringBootTest(properties={
+ "app.data-seeder.enabled=false",
+ "spring.datasource.url=jdbc:h2:mem:acreditacion_f01_test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE",
+ "spring.jpa.hibernate.ddl-auto=create-drop",
+ "spring.jpa.properties.hibernate.hbm2ddl.halt_on_error=true"
+})
 @ActiveProfiles("h2")
 @Transactional
 class AcrF01PersistenceTest {

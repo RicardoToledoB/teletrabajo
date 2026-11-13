@@ -7,6 +7,8 @@ import java.util.List;
 @Table(name="acr_processes")
 public class AcrProcess {
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) public Long id;
+  // YEAR es palabra reservada en H2; Hibernate delimita el mismo nombre físico según el dialecto.
+  @Column(name="`year`")
   public Integer year;
   public String title;
   @Column(columnDefinition="TEXT") public String legalBasis;
