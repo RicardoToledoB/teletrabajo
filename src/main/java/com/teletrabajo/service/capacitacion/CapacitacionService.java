@@ -21,14 +21,22 @@ public class CapacitacionService {
  @Value("${capacitacion.official-issuance-enabled:false}") private boolean issuanceEnabled;
  @Value("${capacitacion.official-operators:}") private String officialOperators;
  public CapacitacionService(CapParticipantRepository p,CapCertificateRepository c,CapSignatoryRepository s,CapCertificateDocumentRepository sd,CapacitacionDocumentsService d){participants=p;certificates=c;signatories=s;storedDocuments=sd;documents=d;}
- public String requireOfficialOperator(){
-  var a=SecurityContextHolder.getContext().getAuthentication();String name=a==null?"":a.getName();
-  if(!issuanceEnabled)throw new ResponseStatusException(HttpStatus.CONFLICT,"Emision oficial no habilitada");
-  if(a==null||!a.isAuthenticated()||name.isBlank()||Arrays.stream(officialOperators.split(",")).map(String::trim).noneMatch(n->n.equalsIgnoreCase(name)))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador no autorizado para certificados oficiales");
+ /** Gestionar firmantes y sus imagenes no equivale a habilitar la emision oficial. */
+ public String requireSignatoryOperator(){
+  var a=SecurityContextHolder.getContext().getAuthentication();
+  String name=a==null?"":a.getName();
+  if(a==null||!a.isAuthenticated()||name.isBlank()||Arrays.stream(officialOperators.split(","))
+    .map(String::trim).noneMatch(n->!n.isBlank()&&n.equalsIgnoreCase(name)))
+   throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador no autorizado para gestionar firmantes");
   return name;
  }
+ /** La emision y revocacion de certificados siguen sujetas al interruptor institucional. */
+ public String requireOfficialOperator(){
+  if(!issuanceEnabled)throw new ResponseStatusException(HttpStatus.CONFLICT,"Emision oficial no habilitada");
+  return requireSignatoryOperator();
+ }
  @Transactional public CapSignatory uploadSignature(Long id,MultipartFile file){
-   requireOfficialOperator();
+   requireSignatoryOperator();
    CapSignatory signer=signatories.findForUpdate(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Firmante no encontrado"));
    // Un archivo nuevo por versión; nunca sobrescribir los activos históricos.
    String asset=documents.storeSignature(file);

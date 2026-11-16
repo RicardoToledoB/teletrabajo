@@ -47,7 +47,7 @@ public class CapacitacionController {
  @PostMapping("/firmantes") public CapSignatory createSignatory(@Valid @RequestBody CapSignatoryRequest s){return saveSignatory(new CapSignatory(),s);}
  @PutMapping("/firmantes/{id}") public CapSignatory updateSignatory(@PathVariable Long id,@Valid @RequestBody CapSignatoryRequest s){return saveSignatory(signatories.findById(id).orElseThrow(()->missing("Firmante")),s);}
  private CapSignatory saveSignatory(CapSignatory s,CapSignatoryRequest q){
-  service.requireOfficialOperator();
+  service.requireSignatoryOperator();
   if(q.validFrom()!=null&&q.validTo()!=null&&q.validTo().isBefore(q.validFrom()))throw bad("Vigencia invalida");
   if(q.signatureAsset()!=null&&q.signatureImagePath()!=null&&!q.signatureAsset().equals(q.signatureImagePath()))throw bad("Referencias de firma no coinciden");
   String asset=q.signatureAsset()!=null?q.signatureAsset():q.signatureImagePath();
