@@ -131,6 +131,36 @@ class ModuleAuthorizationTest {
         }
     }
 
+    @Test void modalidadADistanciaEnPutYPost() throws Exception {
+        String token=bearer("FUNCIONARIO");
+        String payload="{\"id\":1,\"title\":\"Prueba\",\"modality\":\"A DISTANCIA\"}";
+        mvc.perform(put("/api/v1/capacitacion/actividades/1").header("Authorization",token)
+            .contentType(MediaType.APPLICATION_JSON).content(payload))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.id").value(1)).andExpect(jsonPath("$.modality").value("A DISTANCIA"));
+        mvc.perform(post("/api/v1/capacitacion/actividades").header("Authorization",token)
+            .contentType(MediaType.APPLICATION_JSON).content("{\"title\":\"Prueba\",\"modality\":\"a distancia\"}"))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.modality").value("A DISTANCIA"));
+        mvc.perform(put("/api/v1/capacitacion/actividades/1").header("Authorization",token)
+            .contentType(MediaType.APPLICATION_JSON).content("{\"title\":\"Prueba\",\"modality\":\"INVALIDA\"}"))
+            .andExpect(status().isBadRequest());
+        mvc.perform(put("/api/v1/capacitacion/actividades/1").header("Authorization",token)
+            .contentType(MediaType.APPLICATION_JSON).content("{\"title\":\"Prueba\",\"modality\":null}"))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.modality").doesNotExist());
+    }
+
+    @Test void contratoMultipartFirmaYGet() throws Exception {
+        CapSignatory signer=new CapSignatory();signer.id=1L;signer.fullName="QA";signer.signatureImagePath="firma-qa.png";
+        when(certificates.uploadSignature(eq(1L),any())).thenReturn(signer);
+        when(signatories.findAll()).thenReturn(List.of(signer));
+        MockMultipartFile file=new MockMultipartFile("file","firma.jpg","image/jpeg",new byte[]{1});
+        mvc.perform(multipart("/api/v1/capacitacion/firmantes/1/firma").file(file)).andExpect(status().isUnauthorized());
+        mvc.perform(multipart("/api/v1/capacitacion/firmantes/1/firma").file(file).header("Authorization",bearer("ADMIN")))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.id").value(1))
+            .andExpect(jsonPath("$.signatureImagePath").value("firma-qa.png")).andExpect(jsonPath("$.signatureAsset").value("firma-qa.png"));
+        mvc.perform(get("/api/v1/capacitacion/firmantes").header("Authorization",bearer("ADMIN")))
+            .andExpect(status().isOk()).andExpect(jsonPath("$[0].signatureAsset").value("firma-qa.png"));
+    }
+
     @Test void convocatoriaF01PersisteCamposYRespetaPropiedad() throws Exception {
         String token=bearer("FUNCIONARIO");
         String payload="""

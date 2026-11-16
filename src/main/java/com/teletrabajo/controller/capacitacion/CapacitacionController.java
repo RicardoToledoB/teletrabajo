@@ -7,6 +7,9 @@ import com.teletrabajo.service.capacitacion.CapacitacionService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 @RestController @RequestMapping("/api/v1/capacitacion")
@@ -26,7 +29,7 @@ public class CapacitacionController {
    if(duplicate)throw new ResponseStatusException(HttpStatus.CONFLICT,"La ejecucion ya existe para el codigo");
   }
   a.title=q.title();a.code=q.code();a.provider=q.provider();a.startDate=q.startDate();a.endDate=q.endDate();a.hours=q.hours();a.active=q.active()==null?Boolean.TRUE:q.active();
-  a.modality=choice(q.modality(),"PRESENCIAL","VIRTUAL","MIXTA");a.executionNumber=q.executionNumber();return activities.save(a);
+  a.modality=choice(q.modality(),"PRESENCIAL","VIRTUAL","MIXTA","A DISTANCIA");a.executionNumber=q.executionNumber();return activities.save(a);
  }
  @GetMapping("/participantes") public List<CapParticipant> participants(){return participants.findAll();}
  @PostMapping("/participantes") public CapParticipant createParticipant(@Valid @RequestBody CapParticipantRequest p){return saveParticipant(new CapParticipant(),p);}
@@ -49,9 +52,12 @@ public class CapacitacionController {
   if(q.signatureAsset()!=null&&q.signatureImagePath()!=null&&!q.signatureAsset().equals(q.signatureImagePath()))throw bad("Referencias de firma no coinciden");
   String asset=q.signatureAsset()!=null?q.signatureAsset():q.signatureImagePath();
   if(asset!=null&&!asset.matches("[A-Za-z0-9_-]{1,100}\\.png"))throw bad("Firma: use un nombre PNG autorizado, sin rutas");
-  s.fullName=q.fullName();s.positionTitle=q.positionTitle();s.signatureImagePath=asset;s.active=q.active()==null?Boolean.TRUE:q.active();
+  s.fullName=q.fullName();s.positionTitle=q.positionTitle();if(asset!=null)s.signatureImagePath=asset;s.active=q.active()==null?Boolean.TRUE:q.active();
   s.validFrom=q.validFrom();s.validTo=q.validTo();s.signaturePosition=choice(q.signaturePosition(),"IZQUIERDA","DERECHA");return signatories.save(s);
  }
+ @Operation(summary="Cargar o reemplazar firma de firmante",description="Operador oficial autorizado. JPG/JPEG o PNG, máximo 2 MB y 2000×2000; se guarda como PNG privado. Devuelve el firmante actualizado.")
+ @PostMapping(value="/firmantes/{id}/firma",consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
+ public CapSignatory uploadSignature(@PathVariable Long id,@RequestParam("file") MultipartFile file){return service.uploadSignature(id,file);}
  @GetMapping("/certificados") public List<CapCertificate> certificates(){return certificates.findAll();}
  @PostMapping("/certificados/emitir/{participantId}") public CapCertificate issue(@PathVariable Long participantId){return service.issue(participantId);}
  @PostMapping("/certificados/{id}/revocar") public CapCertificate revoke(@PathVariable Long id){return service.revoke(id);}

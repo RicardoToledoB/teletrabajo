@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.stream.ImageInputStream;
 import java.io.*;
 import java.nio.file.*;
@@ -38,6 +40,44 @@ public class CapacitacionDocumentsService {
   CapCertificateDocument document=documents.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.CONFLICT,"Certificado sin PDF historico; no regenerar"));
   if(c.pdfSha256==null||!c.pdfSha256.equals(sha256(document.pdfBytes)))throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Integridad del PDF no valida");
   return document.pdfBytes;
+ }
+ private static final int MAX_SIGNATURE_BYTES=2_000_000;
+ /** Validate decoded content, not the name or MIME supplied by the client. */
+ public String storeSignature(MultipartFile file){
+  if(file==null||file.isEmpty()||file.getSize()>MAX_SIGNATURE_BYTES)
+   throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Firma requerida; maximo 2 MB");
+  byte[] png;
+  try(InputStream source=file.getInputStream(); ImageInputStream input=ImageIO.createImageInputStream(source)){
+   if(input==null)throw new IOException("Imagen invalida");
+   var readers=ImageIO.getImageReaders(input);
+   if(!readers.hasNext())throw new IOException("Imagen invalida");
+   var reader=readers.next();
+   try{
+    reader.setInput(input,true,true);
+    String format=reader.getFormatName();
+    if(!format.equalsIgnoreCase("png")&&!format.equalsIgnoreCase("jpeg"))throw new IOException("Formato no admitido");
+    int w=reader.getWidth(0),h=reader.getHeight(0);
+    if(w<1||h<1||w>2000||h>2000)throw new IOException("Dimensiones no admitidas");
+    BufferedImage decoded=reader.read(0);
+    BufferedImage clean=new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB);
+    var g=clean.createGraphics();try{g.setComposite(java.awt.AlphaComposite.Src);g.drawImage(decoded,0,0,null);}finally{g.dispose();}
+    try(ByteArrayOutputStream out=new ByteArrayOutputStream()){
+     if(!ImageIO.write(clean,"PNG",out))throw new IOException("No se pudo codificar PNG");
+     png=out.toByteArray();
+    }
+   }finally{reader.dispose();}
+  }catch(IOException|RuntimeException ex){throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Firma invalida: use JPG o PNG de hasta 2000x2000",ex);}
+  if(png.length>MAX_SIGNATURE_BYTES)throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El PNG resultante supera 2 MB");
+  String asset="firma-"+UUID.randomUUID()+".png";
+  Path temp=null;
+  try{
+   Path root=Files.createDirectories(Path.of(signatureDirectory)).toRealPath();
+   temp=Files.createTempFile(root,"firma-",".tmp");
+   Files.write(temp,png);
+   Files.move(temp,root.resolve(asset),StandardCopyOption.ATOMIC_MOVE);
+   return asset;
+  }catch(IOException|RuntimeException ex){throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"No se pudo guardar la firma en el directorio privado",ex);}
+  finally{if(temp!=null)try{Files.deleteIfExists(temp);}catch(IOException ignored){}}
  }
  public byte[] loadSignature(String asset){
   if(asset==null||!asset.matches("[A-Za-z0-9_-]{1,100}\\.png"))throw new ResponseStatusException(HttpStatus.CONFLICT,"Firma PNG autorizada no configurada");

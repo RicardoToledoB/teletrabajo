@@ -9,7 +9,7 @@ POST ejemplo:
 ```json
 {"title":"Curso QA","code":"CURSO-QA","provider":"DSSM","startDate":"2026-11-12","endDate":"2026-11-13","hours":8,"active":true,"modality":"VIRTUAL","executionNumber":1}
 ```
-Modalidades PRESENCIAL, VIRTUAL, MIXTA. `code` + `executionNumber` único cuando ambos existen. Los registros anteriores mantienen nulos los campos nuevos.
+Modalidades PRESENCIAL, VIRTUAL, MIXTA, A DISTANCIA (o null). `code` + `executionNumber` único cuando ambos existen. Los registros anteriores mantienen nulos los campos nuevos.
 
 ## Participantes
 GET/POST `/participantes`; PUT `/participantes/{id}` (reemplazo completo).
@@ -23,7 +23,14 @@ GET/POST `/firmantes`; PUT `/firmantes/{id}` (reemplazo completo).
 ```json
 {"fullName":"Firmante QA","positionTitle":"Cargo QA","signatureImagePath":"izquierda.png","signaturePosition":"IZQUIERDA","validFrom":"2026-11-01","validTo":null,"active":true}
 ```
-`signatureAsset` es alias de `signatureImagePath` y se admite también en el request. No se aceptan URLs, rutas absolutas, ni traversal. PNG suministrados por operador de servidor en directorio privado; máximo 2 MB y 2000x2000. La fecha inicial y el cargo son obligatorios para la selección al emitir; fecha final nula = vigencia indefinida. Exactamente un firmante vigente por IZQUIERDA y DERECHA. Las imágenes de firma **no son FEA**.
+`signatureAsset` es alias de `signatureImagePath` y se admite también en el request. No se aceptan URLs, rutas absolutas, ni traversal. PNG existentes suministrados por operador de servidor o cargados por API en directorio privado; máximo 2 MB y 2000x2000. Si ambos campos de referencia son nulos/omitidos en PUT, se conserva la firma existente. La fecha inicial y el cargo son obligatorios para la selección al emitir; fecha final nula = vigencia indefinida. Exactamente un firmante vigente por IZQUIERDA y DERECHA. Las imágenes de firma **no son FEA**.
+
+## Carga y reemplazo de firma (16/11/2026)
+`POST /firmantes/{id}/firma`, JWT, multipart/form-data, parte `file` (PNG, JPG/JPEG). El operador debe estar en `capacitacion.official-operators` y `capacitacion.official-issuance-enabled=true`. El archivo se valida por contenido, se decodifica y se convierte a PNG sin metadatos originales, con máximo 2.000.000 bytes de entrada y salida y dimensiones hasta 2000×2000. Se genera un nombre único `firma-<uuid>.png` y se escribe en `capacitacion.signature-directory` (privado, fuera del repositorio). Se actualiza `signatureImagePath` del mismo ID; `signatureAsset` es su alias. HTTP 200 devuelve el firmante completo, con las dos referencias iguales. GET `/firmantes` devuelve la referencia actual, no una URL pública ni los bytes. No se expone una descarga de la imagen por API. El reemplazo conserva los archivos anteriores y no modifica PDF históricos. Si falla la transacción DB después de escribir el archivo, puede quedar un archivo huérfano; no se borra automáticamente para evitar afectar referencias históricas.
+
+Errores: 400 imagen inválida, tamaño/dimensiones o falta de `file`; 401 JWT inválido/ausente; 403 operador no autorizado; 404 firmante inexistente; 409 emisión oficial no habilitada; 500 error de almacenamiento. El límite multipart global puede producir un error antes del controlador si se excede. No enviar una ruta local del navegador como referencia de firma. Para un nuevo firmante, POST JSON sin imagen, luego POST multipart con su ID. Para editar datos sin cambiar la firma, omitir ambas referencias o enviar la referencia vigente.
+
+Esta actualización no requiere ALTER TABLE. Respaldar también el directorio de firmas junto con MySQL. Confirmar permisos de lectura/escritura de la cuenta real del servicio antes del despliegue. Pruebas nuevas: modalidad POST/PUT, contrato multipart/GET, persistencia H2, reemplazo JPG/PNG, formatos/tamaño/dimensiones, autorización y firmante inexistente. Ejecutar `./mvnw clean package` en el servidor. Pruebas agregadas aún no ejecutadas al momento de empaquetar (Maven no disponible en entorno de preparación).
 
 ## Certificados
 - GET `/certificados`, GET `/certificados/{id}`.
@@ -45,8 +52,8 @@ capacitacion.official-operators=cuenta.institucional.autorizada@example.test
 capacitacion.signature-directory=/var/lib/teletrabajo/capacitacion/firmas
 capacitacion.verification-base-url=https://teletrabajo.dssm.cl/api/v1/public/capacitacion/verificar
 ```
-Reemplazar la cuenta ficticia con las cuentas autorizadas reales (separadas por coma; mismo nombre de autenticación JWT). Directorio no público, lectura solo para cuenta del servicio, escritura reservada al administrador de activos. No incluir imágenes reales en el ZIP ni en logs. Usar QA con imágenes ficticias y operadores de prueba antes de habilitar producción. Para emitir oficialmente aprobar el formato, uso de imágenes, permisos y requisitos de aprobación/asistencia/nota; estos últimos no tienen umbral institucional definido y no se imponen valores arbitrarios.
+Reemplazar la cuenta ficticia con las cuentas autorizadas reales (separadas por coma; mismo nombre de autenticación JWT). Directorio no público, lectura y escritura para cuenta del servicio; administración reservada a operadores autorizados. No incluir imágenes reales en el ZIP ni en logs. Usar QA con imágenes ficticias y operadores de prueba antes de habilitar producción. Para emitir oficialmente aprobar el formato, uso de imágenes, permisos y requisitos de aprobación/asistencia/nota; estos últimos no tienen umbral institucional definido y no se imponen valores arbitrarios.
 4. Validar que un usuario autenticado pueda leer/crear actividades y participantes, que operadores no autorizados no emitan/revoquen, que se emita con dos firmantes y se pueda verificar QR, PDF y SHA-256, que cambios de firmantes no cambien el PDF y que revocación cambie la verificación. Probar error 404 con actividad inexistente y 400 con asistencia fuera de rango.
 
 ## Limitaciones
-No se incorpora FEA, diseño de plantilla aprobado, auditoría integral de altas/ediciones ni carga de imágenes por API; imágenes autorizadas se gestionan en servidor. CSV no tiene soporte de comillas/columnas nuevas. Los campos nuevos son opcionales para registros previos. Antes de producción revisar permisos de lecturas y edición de información personal, actualmente abiertos a todos los usuarios autenticados por requerimiento previo. La autenticación JWT y el diagnóstico 401 se conservan.
+No se incorpora FEA, diseño de plantilla aprobado, auditoría integral de altas/ediciones ni auditoría integral de carga de imágenes; la carga exige operador autorizado. CSV no tiene soporte de comillas/columnas nuevas. Los campos nuevos son opcionales para registros previos. Antes de producción revisar permisos de lecturas y edición de información personal, actualmente abiertos a todos los usuarios autenticados por requerimiento previo. La autenticación JWT y el diagnóstico 401 se conservan.

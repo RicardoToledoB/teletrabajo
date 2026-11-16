@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.multipart.MultipartFile;
 import java.time.*;
 import java.util.*;
 @Service
@@ -25,6 +26,14 @@ public class CapacitacionService {
   if(!issuanceEnabled)throw new ResponseStatusException(HttpStatus.CONFLICT,"Emision oficial no habilitada");
   if(a==null||!a.isAuthenticated()||name.isBlank()||Arrays.stream(officialOperators.split(",")).map(String::trim).noneMatch(n->n.equalsIgnoreCase(name)))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador no autorizado para certificados oficiales");
   return name;
+ }
+ @Transactional public CapSignatory uploadSignature(Long id,MultipartFile file){
+   requireOfficialOperator();
+   CapSignatory signer=signatories.findForUpdate(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Firmante no encontrado"));
+   // Un archivo nuevo por versión; nunca sobrescribir los activos históricos.
+   String asset=documents.storeSignature(file);
+   signer.signatureImagePath=asset;
+   return signatories.saveAndFlush(signer);
  }
  @Transactional public CapCertificate issue(Long participantId){
    String operator=requireOfficialOperator();
