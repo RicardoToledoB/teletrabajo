@@ -161,6 +161,19 @@ class ModuleAuthorizationTest {
             .andExpect(status().isOk()).andExpect(jsonPath("$[0].signatureAsset").value("firma-qa.png"));
     }
 
+    @Test void descargarFirmaExigeJwtYDevuelvePngSinCache() throws Exception {
+        byte[] png = {(byte)137,80,78,71,13,10,26,10,1,2,3};
+        when(certificates.downloadSignature(1L)).thenReturn(png);
+        mvc.perform(get("/api/v1/capacitacion/firmantes/1/firma"))
+            .andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/v1/capacitacion/firmantes/1/firma")
+             .header("Authorization", bearer("ADMIN")))
+            .andExpect(status().isOk())
+            .andExpect(header().string("Content-Type", "image/png"))
+            .andExpect(header().string("Cache-Control", org.hamcrest.Matchers.containsString("no-store")))
+            .andExpect(content().bytes(png));
+    }
+
     @Test void convocatoriaF01PersisteCamposYRespetaPropiedad() throws Exception {
         String token=bearer("FUNCIONARIO");
         String payload="""

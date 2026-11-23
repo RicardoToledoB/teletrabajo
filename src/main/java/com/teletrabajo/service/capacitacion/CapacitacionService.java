@@ -43,6 +43,14 @@ public class CapacitacionService {
    signer.signatureImagePath=asset;
    return signatories.saveAndFlush(signer);
  }
+ /** Descarga autenticada para operadores institucionales; el directorio nunca se expone. */
+ @Transactional(readOnly=true) public byte[] downloadSignature(Long id){
+  requireSignatoryOperator();
+  CapSignatory signer=signatories.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Firmante no encontrado"));
+  if(signer.signatureImagePath==null||signer.signatureImagePath.isBlank())
+   throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Firmante sin imagen de firma");
+  return documents.loadSignature(signer.signatureImagePath);
+ }
  @Transactional public CapCertificate issue(Long participantId){
    String operator=requireOfficialOperator();
    CapParticipant p=participants.findForIssue(participantId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Participante no encontrado"));

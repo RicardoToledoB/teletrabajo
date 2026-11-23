@@ -56,6 +56,18 @@ class CapacitacionSignaturePersistenceTest {
   em.clear();assertEquals(next,signatories.findById(id).orElseThrow().getSignatureAsset());
   assertArrayEquals(previous,documents.loadSignature(old));assertTrue(Files.isRegularFile(dir.resolve(next)));
  }
+ @Test void descargaPngActualYExigeOperador()throws Exception{
+  Long id=signer();
+  assertEquals(404,assertThrows(ResponseStatusException.class,()->service.downloadSignature(id)).getStatusCode().value());
+  service.uploadSignature(id,file("jpeg",80,30));
+  byte[] png=service.downloadSignature(id);
+  assertTrue(png.length>8);
+  assertArrayEquals(new byte[]{(byte)137,80,78,71,13,10,26,10},java.util.Arrays.copyOf(png,8));
+  authenticate("otro@example.test");
+  assertEquals(403,assertThrows(ResponseStatusException.class,()->service.downloadSignature(id)).getStatusCode().value());
+  authenticate("qa@example.test");
+  assertEquals(404,assertThrows(ResponseStatusException.class,()->service.downloadSignature(Long.MAX_VALUE)).getStatusCode().value());
+ }
  @Test void rechazaArchivosInvalidosYDimensionesSinCambiarReferencia()throws Exception{
   Long id=signer();String old=service.uploadSignature(id,file("png",80,30)).signatureImagePath;
   for(var invalid:List.of(new MockMultipartFile("file","f.png","image/png",new byte[]{1,2,3}),file("png",2001,1),new MockMultipartFile("file","f.png","image/png",new byte[2_000_001]))){

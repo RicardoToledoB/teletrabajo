@@ -7,6 +7,9 @@ import com.teletrabajo.service.capacitacion.CapacitacionService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,6 +61,16 @@ public class CapacitacionController {
  @Operation(summary="Cargar o reemplazar firma de firmante",description="Operador oficial autorizado. JPG/JPEG o PNG, máximo 2 MB y 2000×2000; se guarda como PNG privado. Devuelve el firmante actualizado.")
  @PostMapping(value="/firmantes/{id}/firma",consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
  public CapSignatory uploadSignature(@PathVariable Long id,@RequestParam("file") MultipartFile file){return service.uploadSignature(id,file);}
+ @Operation(summary="Descargar imagen PNG de firmante",description="JWT y operador institucional autorizado. Descarga el PNG actual del firmante (no una URL pública).")
+ @GetMapping(value="/firmantes/{id}/firma",produces=MediaType.IMAGE_PNG_VALUE)
+ public ResponseEntity<byte[]> downloadSignature(@PathVariable Long id){
+  byte[] png=service.downloadSignature(id);
+  return ResponseEntity.ok()
+   .contentType(MediaType.IMAGE_PNG)
+   .cacheControl(CacheControl.noStore())
+   .header(HttpHeaders.CONTENT_DISPOSITION,"inline; filename=\"firma-"+id+".png\"")
+   .body(png);
+ }
  @GetMapping("/certificados") public List<CapCertificate> certificates(){return certificates.findAll();}
  @PostMapping("/certificados/emitir/{participantId}") public CapCertificate issue(@PathVariable Long participantId){return service.issue(participantId);}
  @PostMapping("/certificados/{id}/revocar") public CapCertificate revoke(@PathVariable Long id){return service.revoke(id);}
