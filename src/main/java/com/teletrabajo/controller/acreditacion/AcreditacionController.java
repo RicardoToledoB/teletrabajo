@@ -69,8 +69,8 @@ public class AcreditacionController {
   if((r.admissibilityDays()==null)!=dayType.isEmpty())throw bad("Indique plazo y tipo de dias conjuntamente");
   p.admissibilityDays=r.admissibilityDays();p.admissibilityDayType=dayType.isEmpty()?null:dayType;p.notice=r.notice();
  }
- @GetMapping("/convocatorias") public List<AcrProcess> list(){return processes.findAll();}
- @GetMapping("/convocatorias/{id}") public AcrProcess get(@PathVariable Long id){return process(id);}
+ @GetMapping("/convocatorias") public List<AcrProcess> list(Authentication auth){Integer actor=uid(auth);return processes.findAll().stream().filter(p->p.publishedAt!=null||Objects.equals(p.createdBy,actor)||official(auth)).toList();}
+ @GetMapping("/convocatorias/{id}") public AcrProcess get(@PathVariable Long id,Authentication auth){AcrProcess p=process(id);if(p.publishedAt==null)requireEditor(p,auth);return p;}
  @Transactional @PostMapping("/convocatorias") public AcrProcess create(@RequestBody AcrProcessRequest request,Authentication auth){
   AcrProcess p=new AcrProcess();copy(p,request);String status=request.status()==null?"PROGRAMADA":normalized(request.status());
   if(!Set.of("BORRADOR","PROGRAMADA").contains(status))throw bad("Estado inicial invalido");
@@ -94,7 +94,7 @@ public class AcreditacionController {
   requireOfficial(auth);AcrProcess p=locked(id);if((!"ABIERTA".equals(p.status)&&!("PROGRAMADA".equals(p.status)&&p.publishedAt!=null))||p.closesAt==null||now().isBefore(p.closesAt))throw conflict("Solo se puede cerrar una convocatoria publicada cuyo plazo haya vencido");
   String prior=p.status;p.status="CERRADA";audit("CERRAR_CONVOCATORIA",id,null,uid(auth),prior,p.status);return processes.save(p);
  }
- @GetMapping("/convocatorias/{id}/requisitos") public List<AcrRequirement> req(@PathVariable Long id){if(!processes.existsById(id))throw new ResponseStatusException(HttpStatus.NOT_FOUND);return requirements.findByProcessId(id);}
+ @GetMapping("/convocatorias/{id}/requisitos") public List<AcrRequirement> req(@PathVariable Long id,Authentication auth){AcrProcess p=process(id);if(p.publishedAt==null)requireEditor(p,auth);return requirements.findByProcessId(id);}
  static void copyReq(AcrRequirement r,AcrRequirement req){if(req.title==null||req.title.isBlank()||req.title.length()>255)throw bad("Titulo de requisito invalido");if(req.validFrom!=null&&req.validTo!=null&&req.validTo.isBefore(req.validFrom))throw bad("Vigencia de requisito invalida");r.modality=req.modality;r.professionCode=req.professionCode;r.requirementKey=req.requirementKey;r.title=req.title;r.required=req.required;r.orderIndex=req.orderIndex;r.validFrom=req.validFrom;r.validTo=req.validTo;}
  @Transactional @PostMapping("/convocatorias/{id}/requisitos") public AcrRequirement addReq(@PathVariable Long id,@RequestBody AcrRequirement req,Authentication auth){
   AcrProcess p=locked(id);requireEditable(p,auth);AcrRequirement r=new AcrRequirement();r.processId=id;copyReq(r,req);r=requirements.save(r);audit("CREAR_REQUISITO",id,null,uid(auth),null,null);return r;
@@ -102,6 +102,7 @@ public class AcreditacionController {
  @Transactional @PutMapping("/convocatorias/{id}/requisitos/{requirementId}") public AcrRequirement updateReq(@PathVariable Long id,@PathVariable Long requirementId,@RequestBody AcrRequirement req,Authentication auth){
   AcrProcess p=locked(id);requireEditable(p,auth);AcrRequirement r=requirements.findById(requirementId).filter(x->Objects.equals(x.processId,id)).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));copyReq(r,req);audit("EDITAR_REQUISITO",id,null,uid(auth),null,null);return requirements.save(r);
  }
+ @GetMapping("/convocatorias/{id}/postulaciones") public List<AcrApplication> listApplicants(@PathVariable Long id,Authentication auth){requireOfficial(auth);process(id);return applications.findByProcessId(id);}
  @GetMapping("/mis-postulaciones") public List<AcrApplication> mine(Authentication auth){return applications.findByApplicantUserId(uid(auth));}
  @Transactional @PostMapping("/convocatorias/{id}/postulaciones") public AcrApplication draft(@PathVariable Long id,@RequestBody AcrApplication request,Authentication auth){
   AcrProcess p=locked(id);LocalDateTime time=now();
