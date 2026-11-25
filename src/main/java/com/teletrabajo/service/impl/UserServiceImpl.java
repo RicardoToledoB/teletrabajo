@@ -27,6 +27,9 @@ public class UserServiceImpl implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private UserProfileFieldValidator profileFieldValidator;
+
+    @Autowired
     private EmailNotificationService emailNotificationService;
 
     private UserDTO mapToDTO(UserEntity entity) {
@@ -44,6 +47,20 @@ public class UserServiceImpl implements IUserService {
                 .contract_type(entity.getContract_type())
                 .password(null)
                 .rut(entity.getRut())
+                .establishmentId(entity.getEstablishmentId())
+                .unitId(entity.getUnitId())
+                .professionId(entity.getProfessionId())
+                .position(entity.getPosition())
+                .staffCategory(entity.getStaffCategory())
+                .grade(entity.getGrade())
+                .contractHours(entity.getContractHours())
+                .applicableLaw(entity.getApplicableLaw())
+                .institutionalEntryDate(entity.getInstitutionalEntryDate())
+                .employmentStatus(entity.getEmploymentStatus())
+                .nationalityId(entity.getNationalityId())
+                .professionalTitleId(entity.getProfessionalTitleId())
+                .phone(entity.getPhone())
+                .personalEmail(entity.getPersonalEmail())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .deletedAt(entity.getDeletedAt())
@@ -65,6 +82,20 @@ public class UserServiceImpl implements IUserService {
                 .birth_date(dto.getBirth_date())
                 .contract_date(dto.getContract_date())
                 .contract_type(dto.getContract_type())
+                .establishmentId(dto.getEstablishmentId())
+                .unitId(dto.getUnitId())
+                .professionId(dto.getProfessionId())
+                .position(dto.getPosition())
+                .staffCategory(dto.getStaffCategory())
+                .grade(dto.getGrade())
+                .contractHours(dto.getContractHours())
+                .applicableLaw(dto.getApplicableLaw())
+                .institutionalEntryDate(dto.getInstitutionalEntryDate())
+                .employmentStatus(dto.getEmploymentStatus())
+                .nationalityId(dto.getNationalityId())
+                .professionalTitleId(dto.getProfessionalTitleId())
+                .phone(dto.getPhone())
+                .personalEmail(dto.getPersonalEmail())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .deletedAt(dto.getDeletedAt())
@@ -76,6 +107,7 @@ public class UserServiceImpl implements IUserService {
             throw new RuntimeException("La contraseña no puede estar vacía");
         }
 
+        profileFieldValidator.validate(dto);
         UserEntity entity = mapToEntity(dto);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         if(dto.getSecondName()!=null){
@@ -92,6 +124,7 @@ public class UserServiceImpl implements IUserService {
         UserEntity entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        profileFieldValidator.validate(dto);
         entity.setFirstName(dto.getFirstName());
         entity.setSecondName(dto.getSecondName());
         entity.setFirstLastName(dto.getFirstLastName());
@@ -107,6 +140,23 @@ public class UserServiceImpl implements IUserService {
         entity.setEmail(dto.getEmail());
         entity.setUsername(dto.getUsername());
         entity.setRut(dto.getRut());
+
+        // Mantener los valores existentes si un cliente antiguo omite los campos nuevos.
+        // Para limpiar un valor se debe utilizar un contrato de edición explícito posterior.
+        if (dto.getEstablishmentId() != null) entity.setEstablishmentId(dto.getEstablishmentId());
+        if (dto.getUnitId() != null) entity.setUnitId(dto.getUnitId());
+        if (dto.getProfessionId() != null) entity.setProfessionId(dto.getProfessionId());
+        if (dto.getPosition() != null) entity.setPosition(dto.getPosition());
+        if (dto.getStaffCategory() != null) entity.setStaffCategory(dto.getStaffCategory());
+        if (dto.getGrade() != null) entity.setGrade(dto.getGrade());
+        if (dto.getContractHours() != null) entity.setContractHours(dto.getContractHours());
+        if (dto.getApplicableLaw() != null) entity.setApplicableLaw(dto.getApplicableLaw());
+        if (dto.getInstitutionalEntryDate() != null) entity.setInstitutionalEntryDate(dto.getInstitutionalEntryDate());
+        if (dto.getEmploymentStatus() != null) entity.setEmploymentStatus(dto.getEmploymentStatus());
+        if (dto.getNationalityId() != null) entity.setNationalityId(dto.getNationalityId());
+        if (dto.getProfessionalTitleId() != null) entity.setProfessionalTitleId(dto.getProfessionalTitleId());
+        if (dto.getPhone() != null) entity.setPhone(dto.getPhone());
+        if (dto.getPersonalEmail() != null) entity.setPersonalEmail(dto.getPersonalEmail());
 
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
