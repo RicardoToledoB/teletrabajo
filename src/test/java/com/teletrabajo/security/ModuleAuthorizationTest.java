@@ -201,9 +201,18 @@ class ModuleAuthorizationTest {
     }
 
     @Test void propiedadDeExpedienteYVerificacionPublicaSeConservan() throws Exception {
-        mvc.perform(get("/api/v1/acreditacion/postulaciones/1").header("Authorization", bearer("ADMIN")))
-                .andExpect(status().isForbidden());
-        mvc.perform(get("/api/v1/public/capacitacion/verificar/test")).andExpect(status().isOk());
+        // Un usuario comun no puede conocer siquiera si existe un expediente ajeno.
+        // El controlador devuelve 404 deliberadamente para no revelar su existencia.
+        mvc.perform(get("/api/v1/acreditacion/postulaciones/1")
+                .header("Authorization", bearer("FUNCIONARIO")))
+                .andExpect(status().isNotFound());
+        // ADMIN@example.test figura expresamente como operador oficial en TestPropertySource.
+        // Por ello puede consultar el expediente, sin que esto implique acceso anonimo.
+        mvc.perform(get("/api/v1/acreditacion/postulaciones/1")
+                .header("Authorization", bearer("ADMIN")))
+                .andExpect(status().isOk());
+        mvc.perform(get("/api/v1/public/capacitacion/verificar/test"))
+                .andExpect(status().isOk());
     }
 
     @Test void despachoInternoDeErroresNoSeEnmascaraComo401() throws Exception {
