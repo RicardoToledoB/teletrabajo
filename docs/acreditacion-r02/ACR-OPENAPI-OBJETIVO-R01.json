@@ -1,0 +1,6993 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Acreditación R01 - propuesta documental, no desplegada",
+    "version": "0.1.0",
+    "description": "Operaciones originales conservadas; x-status distingue propuesta de publicación. Sin verificación HTTP."
+  },
+  "paths": {
+    "/api/v1/acreditacion/convocatorias/{id}": {
+      "get": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "get_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcess"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      },
+      "put": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "update_21",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcrProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcess"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/requisitos/{requirementId}": {
+      "put": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "updateReq",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "requirementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcrRequirement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrRequirement"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias": {
+      "get": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "list_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AcrProcess"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      },
+      "post": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "create_21",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcrProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcess"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/requisitos": {
+      "get": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "req",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AcrRequirement"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      },
+      "post": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "addReq",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcrRequirement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrRequirement"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/publicar": {
+      "post": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "publish",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcess"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/postulaciones": {
+      "post": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "draft_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcrApplication"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrApplication"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      },
+      "get": {
+        "operationId": "proposed_get_convocatorias_id_postulaciones",
+        "summary": "Bandeja autorizada",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F14/F17",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedApplications"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/documentos": {
+      "get": {
+        "tags": [
+          "acreditacion-process-document-controller"
+        ],
+        "operationId": "list_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AcrProcessDocumentDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      },
+      "post": {
+        "tags": [
+          "acreditacion-process-document-controller"
+        ],
+        "operationId": "upload",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcessDocumentDto"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/documentos/{documentId}/retirar": {
+      "post": {
+        "tags": [
+          "acreditacion-process-document-controller"
+        ],
+        "operationId": "withdraw",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcessDocumentDto"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/cerrar": {
+      "post": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "close",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcess"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/abrir": {
+      "post": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "open",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrProcess"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}": {
+      "get": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "getMine",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcrApplication"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      },
+      "put": {
+        "operationId": "proposed_put_postulaciones_id",
+        "summary": "Actualizar borrador (solo campos editables)",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F02/F04",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplicationsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedApplicationsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/mis-postulaciones": {
+      "get": {
+        "tags": [
+          "acreditacion-controller"
+        ],
+        "operationId": "mine",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AcrApplication"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/documentos/{documentId}/pdf": {
+      "get": {
+        "tags": [
+          "acreditacion-process-document-controller"
+        ],
+        "operationId": "download",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        },
+        "x-status": "PUBLICADO_EN_EXPORTACION",
+        "x-test-status": "NO_PROBADO"
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/ficha": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_ficha",
+        "summary": "Recuperar ficha",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F02/F03",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplicantSnapshots"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_ficha",
+        "summary": "Guardar borrador ficha",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F02/F03",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplicantSnapshotsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedApplicantSnapshotsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/declaracion": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_declaracion",
+        "summary": "Recuperar declaracion",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F05",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedDeclarations"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_declaracion",
+        "summary": "Guardar borrador declaracion",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F05",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedDeclarationsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedDeclarationsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/cargos": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_cargos",
+        "summary": "Listar cargos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F03",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedApplicationJobs"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_cargos",
+        "summary": "Agregar cargos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F03",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplicationJobsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedApplicationJobsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/cargos/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_cargos_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F03",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplicationJobsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedApplicationJobsInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_cargos_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F03",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplicationJobs"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/capacitaciones": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_capacitaciones",
+        "summary": "Listar capacitaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F07",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedTraining"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_capacitaciones",
+        "summary": "Agregar capacitaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F07",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedTrainingInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedTrainingInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/capacitaciones/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_capacitaciones_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F07",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedTrainingInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedTrainingInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_capacitaciones_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F07",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedTraining"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/antecedentes-academicos": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_antecedentes_academicos",
+        "summary": "Listar antecedentes-academicos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F08",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedAcademicEvidence"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_antecedentes_academicos",
+        "summary": "Agregar antecedentes-academicos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F08",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAcademicEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAcademicEvidenceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/antecedentes-academicos/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_antecedentes_academicos_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F08",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAcademicEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAcademicEvidenceInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_antecedentes_academicos_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F08",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAcademicEvidence"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/antecedentes-clinicos": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_antecedentes_clinicos",
+        "summary": "Listar antecedentes-clinicos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F09",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedClinicalEvidence"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_antecedentes_clinicos",
+        "summary": "Agregar antecedentes-clinicos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F09",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedClinicalEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedClinicalEvidenceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/antecedentes-clinicos/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_antecedentes_clinicos_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F09",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedClinicalEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedClinicalEvidenceInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_antecedentes_clinicos_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F09",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedClinicalEvidence"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/situaciones-criticas": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_situaciones_criticas",
+        "summary": "Listar situaciones-criticas",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedCriticalEvidence"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_situaciones_criticas",
+        "summary": "Agregar situaciones-criticas",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCriticalEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedCriticalEvidenceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/situaciones-criticas/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_situaciones_criticas_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCriticalEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedCriticalEvidenceInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_situaciones_criticas_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F10",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCriticalEvidence"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/antecedentes-organizacionales": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_antecedentes_organizacionales",
+        "summary": "Listar antecedentes-organizacionales",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedOrgEvidence"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_antecedentes_organizacionales",
+        "summary": "Agregar antecedentes-organizacionales",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedOrgEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedOrgEvidenceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/antecedentes-organizacionales/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_antecedentes_organizacionales_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedOrgEvidenceInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedOrgEvidenceInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_antecedentes_organizacionales_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F11",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedOrgEvidence"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/reconocimientos": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_reconocimientos",
+        "summary": "Listar reconocimientos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedRecognitions"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_reconocimientos",
+        "summary": "Agregar reconocimientos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedRecognitionsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedRecognitionsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/reconocimientos/{itemId}": {
+      "put": {
+        "operationId": "proposed_put_postulaciones_id_reconocimientos_itemId",
+        "summary": "Actualizar en borrador",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedRecognitionsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedRecognitionsInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "proposed_delete_postulaciones_id_reconocimientos_itemId",
+        "summary": "Retirar solo en borrador; preservar auditoría",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedRecognitions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/documentos": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_documentos",
+        "summary": "Listar documentos autorizados",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR/REVISOR",
+        "x-forms": "F04–F12/F17",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedDocuments"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_documentos",
+        "summary": "Cargar PDF",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F04–F12",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedDocuments"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "metadata": {
+                    "$ref": "#/components/schemas/ProposedDocuments"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/documentos/{documentId}/pdf": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_documentos_documentId_pdf",
+        "summary": "Descargar PDF protegido",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR/REVISOR",
+        "x-forms": "F06/F17",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/documentos/{documentId}/retirar": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_documentos_documentId_retirar",
+        "summary": "Retirar antes de envío",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F06",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedDocuments"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/presentar": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_presentar",
+        "summary": "Presentar, congelar snapshot y generar folio",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F13",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedApplications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/trayectoria": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_trayectoria",
+        "summary": "Trayectoria filtrada; excluir notas internas",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F17",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedAuditEvents"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/admisibilidad": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_admisibilidad",
+        "summary": "Consultar admisibilidad",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F14",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedAdmissibilityReviews"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_admisibilidad",
+        "summary": "Registrar admisibilidad",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F14",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAdmissibilityReviewsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAdmissibilityReviewsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/criterios": {
+      "get": {
+        "operationId": "proposed_get_convocatorias_id_criterios",
+        "summary": "Consultar criterios",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F15",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedEvaluationCriteria"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_convocatorias_id_criterios",
+        "summary": "Registrar criterios",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F15",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedEvaluationCriteriaInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedEvaluationCriteriaInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/comision": {
+      "get": {
+        "operationId": "proposed_get_convocatorias_id_comision",
+        "summary": "Consultar comision",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedCommissionMembers"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_convocatorias_id_comision",
+        "summary": "Registrar comision",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCommissionMembersInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedCommissionMembersInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/asignaciones": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_asignaciones",
+        "summary": "Consultar asignaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedCommissionAssignments"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_asignaciones",
+        "summary": "Registrar asignaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCommissionAssignmentsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedCommissionAssignmentsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/evaluaciones": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_evaluaciones",
+        "summary": "Consultar evaluaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "COMISIÓN",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedEvaluations"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_evaluaciones",
+        "summary": "Registrar evaluaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "COMISIÓN",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedEvaluationsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedEvaluationsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/apelaciones": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_apelaciones",
+        "summary": "Consultar apelaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F18",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedAppeals"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_apelaciones",
+        "summary": "Registrar apelaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F18",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAppealsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAppealsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/resoluciones": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_resoluciones",
+        "summary": "Consultar resoluciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "DIRECTOR/REFERENTE AUTORIZADO",
+        "x-forms": "F19",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedResolutions"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_resoluciones",
+        "summary": "Registrar resoluciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "DIRECTOR/REFERENTE AUTORIZADO",
+        "x-forms": "F19",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedResolutionsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedResolutionsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/certificados": {
+      "get": {
+        "operationId": "proposed_get_postulaciones_id_certificados",
+        "summary": "Consultar certificados",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "OPERADOR AUTORIZADO",
+        "x-forms": "F20",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedCertificates"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_certificados",
+        "summary": "Registrar certificados",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "OPERADOR AUTORIZADO",
+        "x-forms": "F20",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCertificatesInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedCertificatesInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/notificaciones": {
+      "get": {
+        "operationId": "proposed_get_convocatorias_id_notificaciones",
+        "summary": "Consultar notificaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F21",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedNotifications"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      },
+      "post": {
+        "operationId": "proposed_post_convocatorias_id_notificaciones",
+        "summary": "Registrar notificaciones",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F21",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedNotificationsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedNotificationsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/admisibilidad/{reviewId}/items": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_admisibilidad_reviewId_items",
+        "summary": "Guardar revisión de requisito",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F14",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAdmissibilityItemsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAdmissibilityItemsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/evaluaciones/{evaluationId}/puntajes": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_evaluaciones_evaluationId_puntajes",
+        "summary": "Guardar puntaje por criterio",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "COMISIÓN",
+        "x-forms": "F15",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "evaluationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedEvaluationScoresInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedEvaluationScoresInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/evaluaciones/{evaluationId}/cerrar": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_evaluaciones_evaluationId_cerrar",
+        "summary": "Cerrar versión y acta",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "COMISIÓN",
+        "x-forms": "F15/F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "evaluationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedEvaluationsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedEvaluationsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/resultados/publicar": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_resultados_publicar",
+        "summary": "Publicar resultado autorizado",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F16",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedEvaluationsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedEvaluationsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/apelaciones/{appealId}/presentar": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_apelaciones_appealId_presentar",
+        "summary": "Presentar recurso",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "TITULAR",
+        "x-forms": "F18",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "appealId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAppealsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAppealsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/apelaciones/{appealId}/resolver": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_apelaciones_appealId_resolver",
+        "summary": "Resolver recurso",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "DIRECTOR",
+        "x-forms": "F19",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "appealId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedAppealsInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedAppealsInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/postulaciones/{id}/certificados/{certificateId}/revocar": {
+      "post": {
+        "operationId": "proposed_post_postulaciones_id_certificados_certificateId_revocar",
+        "summary": "Revocar con motivo",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "OPERADOR AUTORIZADO",
+        "x-forms": "F20",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "certificateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposedCertificatesInput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposedCertificatesInput"
+              }
+            }
+          }
+        },
+        "description": "Acción transaccional; servidor valida rol, pertenencia, estado, fechas y auditoría. No aceptar campos de autoridad definidos por cliente."
+      }
+    },
+    "/api/v1/acreditacion/verificacion/{token}": {
+      "get": {
+        "operationId": "proposed_get_verificacion_token",
+        "summary": "Verificar datos mínimos",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "PÚBLICO",
+        "x-forms": "F20",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "certificateNumber": {
+                      "type": "string"
+                    },
+                    "issuedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      }
+    },
+    "/api/v1/acreditacion/convocatorias/{id}/reportes": {
+      "get": {
+        "operationId": "proposed_get_convocatorias_id_reportes",
+        "summary": "Reporte autorizado con filtros pendientes de confirmar",
+        "x-status": "PROPUESTO_NO_PUBLICADO",
+        "x-role": "REFERENTE",
+        "x-forms": "F22",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta propuesta; confirmar contrato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProposedApplications"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación"
+          },
+          "401": {
+            "description": "No autenticado"
+          },
+          "403": {
+            "description": "No autorizado"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "409": {
+            "description": "Conflicto de estado o unicidad"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AcrProcessRequest": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "legalBasis": {
+            "type": "string"
+          },
+          "professions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "opensAt": {
+            "type": "string",
+            "description": "Fecha y hora local de Magallanes (ISO); también YYYY-MM-DD",
+            "example": "2027-03-01T09:00:00"
+          },
+          "closesAt": {
+            "type": "string",
+            "example": "2027-03-31T17:00:00"
+          },
+          "admissibilityDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "admissibilityDayType": {
+            "type": "string",
+            "enum": [
+              "habiles",
+              "corridos"
+            ]
+          },
+          "reviewStartsAt": {
+            "type": "string"
+          },
+          "reviewDeadlineAt": {
+            "type": "string"
+          },
+          "appealOpensAt": {
+            "type": "string"
+          },
+          "appealClosesAt": {
+            "type": "string"
+          },
+          "notice": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "Solo para creación; por compatibilidad, omitido = PROGRAMADA. Publicar/abrir/cerrar son acciones separadas.",
+            "enum": [
+              "BORRADOR",
+              "PROGRAMADA"
+            ]
+          }
+        }
+      },
+      "AcrProcess": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "legalBasis": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "opensAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewStartsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewDeadlineAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "appealOpensAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "appealClosesAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "professions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "admissibilityDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "admissibilityDayType": {
+            "type": "string"
+          },
+          "notice": {
+            "type": "string"
+          }
+        }
+      },
+      "AcrRequirement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "professionCode": {
+            "type": "string"
+          },
+          "requirementKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "AcrApplication": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "applicantUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trackingCode": {
+            "type": "string"
+          },
+          "professionCode": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "eligibilityStatus": {
+            "type": "string"
+          },
+          "finalOutcome": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AcrProcessDocumentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "uploadedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProposedProcesses": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "legalBasis": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "opensAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewStartsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewDeadlineAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "appealOpensAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "appealClosesAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "professions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "admissibilityDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "admissibilityDayType": {
+            "type": "string"
+          },
+          "notice": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedApplications": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "applicantUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trackingCode": {
+            "type": "string"
+          },
+          "professionCode": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "eligibilityStatus": {
+            "type": "string"
+          },
+          "finalOutcome": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "receiptReference": {
+            "type": "string"
+          },
+          "draftUpdatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProposedApplicantSnapshots": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rutNormalized": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "profession": {
+            "type": "string"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "contractType": {
+            "type": "string"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "specialty": {
+            "type": "string"
+          },
+          "snapshotJson": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "capturedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstNames": {
+            "type": "string"
+          },
+          "paternalSurname": {
+            "type": "string"
+          },
+          "maternalSurname": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "nationality": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "commune": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "degreeTitle": {
+            "type": "string"
+          },
+          "degreeDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "specialtyAuthority": {
+            "type": "string"
+          },
+          "specialtyDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ProposedRequirements": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "professionCode": {
+            "type": "string"
+          },
+          "requirementKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ProposedDocuments": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "requirementId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "criterionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "documentReference": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "uploadedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validationStatus": {
+            "type": "string"
+          },
+          "validatedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "documentType": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "signatureChecked": {
+            "type": "boolean"
+          },
+          "versionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "previousDocumentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "validationReason": {
+            "type": "string"
+          },
+          "validatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProposedEvaluationCriteria": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "areaCode": {
+            "type": "string"
+          },
+          "factorCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "maxPoints": {
+            "type": "number"
+          },
+          "minPoints": {
+            "type": "number"
+          },
+          "calculationRule": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "professionCode": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "versionNumber": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProposedEvaluations": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commissionStatus": {
+            "type": "string"
+          },
+          "totalScore": {
+            "type": "number"
+          },
+          "approvedByScore": {
+            "type": "boolean"
+          },
+          "observations": {
+            "type": "string"
+          },
+          "finalizedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finalizedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "versionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "actReference": {
+            "type": "string"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "publishedBy": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProposedEvaluationScores": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "evaluationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "criterionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "assignedScore": {
+            "type": "number"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "assessedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "assessedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProposedCommissionMembers": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "functionCode": {
+            "type": "string"
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "activeTo": {
+            "type": "string",
+            "format": "date"
+          },
+          "appointmentReference": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedAppeals": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "submittedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "grounds": {
+            "type": "string"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "decisionReason": {
+            "type": "string"
+          },
+          "decidedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "decidedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "appealNumber": {
+            "type": "string"
+          },
+          "challengedDecision": {
+            "type": "string"
+          },
+          "notifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cause": {
+            "type": "string"
+          },
+          "requestedAction": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "boolean"
+          },
+          "receiptReference": {
+            "type": "string"
+          },
+          "challengedResolutionId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProposedResolutions": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "appealId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "resolutionNumber": {
+            "type": "string"
+          },
+          "resolutionType": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "issuedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentReference": {
+            "type": "string"
+          },
+          "signedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decisionReason": {
+            "type": "string"
+          },
+          "modifiedOutcome": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedCertificates": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "resolutionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "certificateNumber": {
+            "type": "string"
+          },
+          "verificationToken": {
+            "type": "string"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pdfReference": {
+            "type": "string"
+          },
+          "pdfSha256": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "revokedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "revokedReason": {
+            "type": "string"
+          },
+          "certificateType": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "holderName": {
+            "type": "string"
+          },
+          "profession": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedNotifications": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "recipientUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventCode": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "deliveryStatus": {
+            "type": "string"
+          },
+          "sentAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "errorSummary": {
+            "type": "string"
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProposedAuditEvents": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "actorUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "action": {
+            "type": "string"
+          },
+          "priorState": {
+            "type": "string"
+          },
+          "newState": {
+            "type": "string"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "metadataJson": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "visibleToApplicant": {
+            "type": "boolean"
+          },
+          "publicObservation": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedProcessDocuments": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "uploadedBy": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "documentReference": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedApplicationJobs": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "positionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "unitName": {
+            "type": "string"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "jobSpecialty": {
+            "type": "string"
+          },
+          "appointmentType": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedDeclarations": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "declarationText": {
+            "type": "string"
+          },
+          "declaredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "place": {
+            "type": "string"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "signatureMethod": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProposedTraining": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "activityName": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "academicHours": {
+            "type": "number"
+          },
+          "hasEvaluation": {
+            "type": "boolean"
+          },
+          "gradeResult": {
+            "type": "string"
+          },
+          "specializationType": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "trainingValidation": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedAcademicEvidence": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "evidenceType": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "teachingHours": {
+            "type": "number"
+          },
+          "researchCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "observations": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedClinicalEvidence": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "activityType": {
+            "type": "string"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "unitName": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "quantitativeIndicator": {
+            "type": "string"
+          },
+          "qualitativeEvaluation": {
+            "type": "string"
+          },
+          "certifier": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "observations": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedCriticalEvidence": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "eventType": {
+            "type": "string"
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "participation": {
+            "type": "string"
+          },
+          "certifier": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProposedOrgEvidence": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "evidenceType": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "relevance": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "unitName": {
+            "type": "string"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          },
+          "contributionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "certifier": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedRecognitions": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "recognitionType": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "recognitionDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "resolutionNumber": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProposedAdmissibilityReviews": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reviewerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProposedAdmissibilityItems": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "reviewId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "requirementId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "result": {
+            "type": "string"
+          },
+          "observation": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedCommissionAssignments": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "applicationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "memberId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "assignedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProposedAppealDocuments": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "appealId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedCertificateSigners": {
+        "type": "object",
+        "x-status": "PROPUESTO",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "certificateId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "signerName": {
+            "type": "string"
+          },
+          "signerTitle": {
+            "type": "string"
+          },
+          "signatureReference": {
+            "type": "string"
+          }
+        }
+      },
+      "ProposedApplicationsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "professionCode": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "eligibilityStatus": {
+            "type": "string"
+          },
+          "draftUpdatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedApplicantSnapshotsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rutNormalized": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "profession": {
+            "type": "string"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "contractType": {
+            "type": "string"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "specialty": {
+            "type": "string"
+          },
+          "firstNames": {
+            "type": "string"
+          },
+          "paternalSurname": {
+            "type": "string"
+          },
+          "maternalSurname": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "nationality": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "commune": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "degreeTitle": {
+            "type": "string"
+          },
+          "degreeDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "specialtyAuthority": {
+            "type": "string"
+          },
+          "specialtyDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedDeclarationsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "declarationText": {
+            "type": "string"
+          },
+          "declaredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "place": {
+            "type": "string"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "signatureMethod": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedApplicationJobsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "positionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "unitName": {
+            "type": "string"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "jobSpecialty": {
+            "type": "string"
+          },
+          "appointmentType": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedTrainingInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "activityName": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "academicHours": {
+            "type": "number"
+          },
+          "hasEvaluation": {
+            "type": "boolean"
+          },
+          "gradeResult": {
+            "type": "string"
+          },
+          "specializationType": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "trainingValidation": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedAcademicEvidenceInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "evidenceType": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "teachingHours": {
+            "type": "number"
+          },
+          "researchCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "observations": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedClinicalEvidenceInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "activityType": {
+            "type": "string"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "unitName": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "hours": {
+            "type": "number"
+          },
+          "quantitativeIndicator": {
+            "type": "string"
+          },
+          "qualitativeEvaluation": {
+            "type": "string"
+          },
+          "certifier": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "observations": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedCriticalEvidenceInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "eventType": {
+            "type": "string"
+          },
+          "eventDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "participation": {
+            "type": "string"
+          },
+          "certifier": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedOrgEvidenceInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "evidenceType": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "relevance": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "unitName": {
+            "type": "string"
+          },
+          "establishment": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          },
+          "contributionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "certifier": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedRecognitionsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "recognitionType": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "recognitionDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "resolutionNumber": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedAdmissibilityReviewsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "reviewedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedEvaluationCriteriaInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "areaCode": {
+            "type": "string"
+          },
+          "factorCode": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "maxPoints": {
+            "type": "number"
+          },
+          "minPoints": {
+            "type": "number"
+          },
+          "calculationRule": {
+            "type": "string"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "professionCode": {
+            "type": "string"
+          },
+          "modality": {
+            "type": "string"
+          },
+          "versionNumber": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedCommissionMembersInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "functionCode": {
+            "type": "string"
+          },
+          "activeFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "activeTo": {
+            "type": "string",
+            "format": "date"
+          },
+          "appointmentReference": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedCommissionAssignmentsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "assignedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedEvaluationsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "commissionStatus": {
+            "type": "string"
+          },
+          "observations": {
+            "type": "string"
+          },
+          "finalizedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "versionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actReference": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedAppealsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "grounds": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "decisionReason": {
+            "type": "string"
+          },
+          "decidedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "appealNumber": {
+            "type": "string"
+          },
+          "challengedDecision": {
+            "type": "string"
+          },
+          "notifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cause": {
+            "type": "string"
+          },
+          "requestedAction": {
+            "type": "string"
+          },
+          "consent": {
+            "type": "boolean"
+          },
+          "challengedResolutionId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedResolutionsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "appealId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "resolutionNumber": {
+            "type": "string"
+          },
+          "resolutionType": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "documentReference": {
+            "type": "string"
+          },
+          "signedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decisionReason": {
+            "type": "string"
+          },
+          "modifiedOutcome": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedCertificatesInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "resolutionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "certificateNumber": {
+            "type": "string"
+          },
+          "pdfReference": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "revokedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "revokedReason": {
+            "type": "string"
+          },
+          "certificateType": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "holderName": {
+            "type": "string"
+          },
+          "profession": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedNotificationsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "recipientUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventCode": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "errorSummary": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedAdmissibilityItemsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reviewId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "requirementId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "result": {
+            "type": "string"
+          },
+          "observation": {
+            "type": "string"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      },
+      "ProposedEvaluationScoresInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "evaluationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "criterionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "assignedScore": {
+            "type": "number"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "assessedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "Campos candidatos; validar por operación, estado y rol; no es contrato confirmado."
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

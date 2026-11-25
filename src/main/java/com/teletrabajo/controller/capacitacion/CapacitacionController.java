@@ -58,10 +58,10 @@ public class CapacitacionController {
   s.fullName=q.fullName();s.positionTitle=q.positionTitle();if(asset!=null)s.signatureImagePath=asset;s.active=q.active()==null?Boolean.TRUE:q.active();
   s.validFrom=q.validFrom();s.validTo=q.validTo();s.signaturePosition=choice(q.signaturePosition(),"IZQUIERDA","DERECHA");return signatories.save(s);
  }
- @Operation(summary="Cargar o reemplazar firma de firmante",description="Operador oficial autorizado. JPG/JPEG o PNG, máximo 2 MB y 2000×2000; se guarda como PNG privado. Devuelve el firmante actualizado.")
+ @Operation(summary="Cargar o reemplazar firma de firmante",description="JWT y acceso de integracion habilitado o operador autorizado. JPG/JPEG o PNG, máximo 2 MB y 2000×2000; se guarda como PNG privado. Devuelve el firmante actualizado.")
  @PostMapping(value="/firmantes/{id}/firma",consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
  public CapSignatory uploadSignature(@PathVariable Long id,@RequestParam("file") MultipartFile file){return service.uploadSignature(id,file);}
- @Operation(summary="Descargar imagen PNG de firmante",description="JWT y operador institucional autorizado. Descarga el PNG actual del firmante (no una URL pública).")
+ @Operation(summary="Descargar imagen PNG de firmante",description="JWT; acceso de integracion habilitado u operador autorizado. Descarga el PNG actual del firmante (no una URL pública).")
  @GetMapping(value="/firmantes/{id}/firma",produces=MediaType.IMAGE_PNG_VALUE)
  public ResponseEntity<byte[]> downloadSignature(@PathVariable Long id){
   byte[] png=service.downloadSignature(id);

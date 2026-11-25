@@ -22,6 +22,7 @@ public class AcreditacionController {
  private final AcrAuditEventRepository audits;
  private final com.teletrabajo.repository.UserRepository users;
  @Value("${acreditacion.official-operators:}") private String officialOperators = "";
+ @Value("${acreditacion.integration-open-access-enabled:false}") private boolean integrationOpenAccessEnabled;
  public AcreditacionController(AcrProcessRepository p,AcrApplicationRepository a,AcrRequirementRepository r,AcrAuditEventRepository e,com.teletrabajo.repository.UserRepository u){processes=p;applications=a;requirements=r;audits=e;users=u;}
  static LocalDateTime now(){return LocalDateTime.now(ZoneId.of("America/Punta_Arenas"));}
  Integer uid(Authentication auth){
@@ -30,7 +31,12 @@ public class AcreditacionController {
   return users.findByEmailIgnoreCase(principal).or(()->users.findByUsername(principal)).orElseThrow(()->new ResponseStatusException(HttpStatus.FORBIDDEN,"Identidad no encontrada")).getId();
  }
  boolean official(Authentication auth){return auth!=null&&Arrays.stream(officialOperators.split(",")).map(String::trim).anyMatch(n->!n.isEmpty()&&n.equalsIgnoreCase(auth.getName()));}
- void requireOfficial(Authentication auth){if(!official(auth))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador de acreditacion no autorizado para esta actuacion oficial");}
+ void requireOfficial(Authentication auth){
+  // Acceso transversal para pruebas: JWT valido sin comprobar roles/lista de operadores.
+  // No altera official(auth), que sigue protegiendo expedientes y borradores ajenos.
+  if(integrationOpenAccessEnabled){uid(auth);return;}
+  if(!official(auth))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador de acreditacion no autorizado para esta actuacion oficial");
+ }
  void requireEditor(AcrProcess p,Authentication auth){if(!Objects.equals(p.createdBy,uid(auth))&&!official(auth))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Convocatoria de otro usuario");}
  static boolean editable(AcrProcess p){return p.publishedAt==null&&("BORRADOR".equals(p.status)||"PROGRAMADA".equals(p.status));}
  void requireEditable(AcrProcess p,Authentication auth){requireEditor(p,auth);if(!editable(p))throw conflict("Convocatoria publicada o no editable");}
@@ -114,5 +120,5 @@ public class AcreditacionController {
   Integer actor=uid(auth);if(applications.existsByProcessIdAndApplicantUserIdAndModalityAndStatusNot(id,actor,modality,"ANULADA"))throw conflict("Postulacion ya registrada");
   AcrApplication a=new AcrApplication();a.processId=id;a.applicantUserId=actor;a.professionCode=request.professionCode;a.modality=modality;a.status="BORRADOR";a.eligibilityStatus="PENDIENTE";a.trackingCode="ACR-"+p.year+"-"+UUID.randomUUID().toString().substring(0,12).toUpperCase(Locale.ROOT);a=applications.save(a);audit("CREAR_BORRADOR",id,a.id,actor,null,a.status);return a;
  }
- @GetMapping("/postulaciones/{id}") public AcrApplication getMine(@PathVariable Long id,Authentication auth){AcrApplication a=applications.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));if(!Objects.equals(a.applicantUserId,uid(auth)))throw new ResponseStatusException(HttpStatus.FORBIDDEN);return a;}
+ @GetMapping("/postulaciones/{id}") public AcrApplication getMine(@PathVariable Long id,Authentication auth){AcrApplication a=applications.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));if(!Objects.equals(a.applicantUserId,uid(auth))&&!official(auth))throw new ResponseStatusException(HttpStatus.NOT_FOUND);return a;}
 }

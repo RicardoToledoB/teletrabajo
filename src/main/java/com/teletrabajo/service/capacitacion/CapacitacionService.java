@@ -20,20 +20,31 @@ public class CapacitacionService {
  @Value("${capacitacion.verification-base-url:https://teletrabajo.dssm.cl/api/v1/public/capacitacion/verificar}") private String verificationBaseUrl;
  @Value("${capacitacion.official-issuance-enabled:false}") private boolean issuanceEnabled;
  @Value("${capacitacion.official-operators:}") private String officialOperators;
+ @Value("${capacitacion.integration-open-access-enabled:false}") private boolean integrationOpenAccessEnabled;
  public CapacitacionService(CapParticipantRepository p,CapCertificateRepository c,CapSignatoryRepository s,CapCertificateDocumentRepository sd,CapacitacionDocumentsService d){participants=p;certificates=c;signatories=s;storedDocuments=sd;documents=d;}
  /** Gestionar firmantes y sus imagenes no equivale a habilitar la emision oficial. */
- public String requireSignatoryOperator(){
+ private String authenticatedUser(){
   var a=SecurityContextHolder.getContext().getAuthentication();
   String name=a==null?"":a.getName();
-  if(a==null||!a.isAuthenticated()||name.isBlank()||Arrays.stream(officialOperators.split(","))
-    .map(String::trim).noneMatch(n->!n.isBlank()&&n.equalsIgnoreCase(name)))
+  if(a==null||!a.isAuthenticated()||name.isBlank()||a instanceof org.springframework.security.authentication.AnonymousAuthenticationToken)
+   throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Se requiere autenticacion JWT");
+  return name;
+ }
+ /** Gestion de firmantes libre entre perfiles solo cuando se habilita QA; JWT obligatorio. */
+ public String requireSignatoryOperator(){
+  String name=authenticatedUser();
+  if(integrationOpenAccessEnabled)return name;
+  if(Arrays.stream(officialOperators.split(",")).map(String::trim).noneMatch(n->!n.isBlank()&&n.equalsIgnoreCase(name)))
    throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador no autorizado para gestionar firmantes");
   return name;
  }
- /** La emision y revocacion de certificados siguen sujetas al interruptor institucional. */
+ /** Emision/revocacion oficial no hereda el acceso abierto de integracion. */
  public String requireOfficialOperator(){
   if(!issuanceEnabled)throw new ResponseStatusException(HttpStatus.CONFLICT,"Emision oficial no habilitada");
-  return requireSignatoryOperator();
+  String name=authenticatedUser();
+  if(Arrays.stream(officialOperators.split(",")).map(String::trim).noneMatch(n->!n.isBlank()&&n.equalsIgnoreCase(name)))
+   throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Operador no autorizado para emitir certificados");
+  return name;
  }
  @Transactional public CapSignatory uploadSignature(Long id,MultipartFile file){
    requireSignatoryOperator();

@@ -60,6 +60,16 @@ class CapSignatoryAdministrationTest {
   assertEquals(409,prohibited.getStatusCode().value());
  }
 
+ @Test void accesoTransversalPermiteFirmantesSinRolPeroNoEmision(){
+  org.springframework.test.util.ReflectionTestUtils.setField(service,"integrationOpenAccessEnabled",true);
+  SecurityContextHolder.getContext().setAuthentication(
+   new UsernamePasswordAuthenticationToken("funcionario@example.test","",List.of()));
+  var result=controller.createSignatory(request("QA transversal","DERECHA",true,null,null));
+  assertNotNull(result.id);
+  assertEquals(409,assertThrows(ResponseStatusException.class,()->service.issue(1L)).getStatusCode().value());
+  org.springframework.test.util.ReflectionTestUtils.setField(service,"integrationOpenAccessEnabled",false);
+ }
+
  @Test void preservaAutorizacionYContratoDePosiciones(){
   SecurityContextHolder.getContext().setAuthentication(
    new UsernamePasswordAuthenticationToken("sin-permiso@example.test","",List.of()));

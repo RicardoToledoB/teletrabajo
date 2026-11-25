@@ -63,6 +63,7 @@ public class SecurityConfig {
                         // 🔥 PRE-FLIGHT (OBLIGATORIO PARA ANGULAR)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/public/capacitacion/verificar/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/acreditacion/verificacion/*").permitAll()
 
                         // públicos
                         .requestMatchers(

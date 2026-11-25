@@ -27,6 +27,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 /** Expediente de postulante F02-F13. No habilita automaticamente los actos oficiales F14-F22. */
 @RestController
@@ -58,17 +59,24 @@ public class AcreditacionExpedienteR01Controller {
   public AcreditacionExpedienteR01Controller(AcreditacionController accreditation,AcrApplicationRepository apps,UserRepository users,JdbcTemplate db,ObjectMapper mapper){
     this.accreditation=accreditation;this.apps=apps;this.users=users;this.db=db;this.mapper=mapper;
   }
+  private static String section(HttpServletRequest request,boolean itemPath){
+    String[] path=request.getRequestURI().split("/");
+    int i=path.length-(itemPath?2:1);
+    if(i<0)return "";
+    return path[i];
+  }
   private static ResponseStatusException bad(String s){return new ResponseStatusException(HttpStatus.BAD_REQUEST,s);}
   private static ResponseStatusException conflict(String s){return new ResponseStatusException(HttpStatus.CONFLICT,s);}
   private static String col(String k){return k.replaceAll("([a-z0-9])([A-Z])","$1_$2").toLowerCase(Locale.ROOT);}
   private String table(String section){String t=TABLES.get(section);if(t==null)throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Seccion desconocida");return t;}
   AcrApplication own(Long id,Authentication auth){
     AcrApplication a=apps.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Expediente inexistente"));
-    if(!Objects.equals(a.applicantUserId,accreditation.uid(auth)))throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Expediente inexistente");
+    if(!Objects.equals(a.applicantUserId,accreditation.uid(auth))&&!accreditation.official(auth))throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Expediente inexistente");
     return a;
   }
   AcrApplication editable(Long id,Authentication auth){
     AcrApplication a=own(id,auth);
+    if(!Objects.equals(a.applicantUserId,accreditation.uid(auth)))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Solo el titular modifica su borrador");
     if(!"BORRADOR".equals(a.status))throw conflict("El expediente presentado es inmutable; subsanaciones requieren procedimiento separado");
     // Las mutaciones usan transacciones; el bloqueo asegura que no se edite tras presentar concurrentemente.
     String status=db.queryForObject("SELECT status FROM acr_applications WHERE id=? AND applicant_user_id=? FOR UPDATE",String.class,id,a.applicantUserId);
@@ -102,10 +110,10 @@ public class AcreditacionExpedienteR01Controller {
     }
     return values;
   }
-  @GetMapping("/{section}") public List<Map<String,Object>> list(@PathVariable Long id,@PathVariable String section,Authentication auth){
+  @GetMapping({"/cargos","/capacitaciones","/antecedentes-academicos","/antecedentes-clinicos","/situaciones-criticas","/antecedentes-organizacionales","/reconocimientos"}) public List<Map<String,Object>> list(@PathVariable Long id,HttpServletRequest request,Authentication auth){String section=section(request,false);
     own(id,auth);return db.queryForList("SELECT * FROM "+table(section)+" WHERE application_id=? ORDER BY id",id);
   }
-  @Transactional @PostMapping("/{section}") public Map<String,Object> create(@PathVariable Long id,@PathVariable String section,@RequestBody Map<String,Object> body,Authentication auth){
+  @Transactional @PostMapping({"/cargos","/capacitaciones","/antecedentes-academicos","/antecedentes-clinicos","/situaciones-criticas","/antecedentes-organizacionales","/reconocimientos"}) public Map<String,Object> create(@PathVariable Long id,@RequestBody Map<String,Object> body,HttpServletRequest request,Authentication auth){String section=section(request,false);
     AcrApplication a=editable(id,auth);String table=table(section);Map<String,Object> fields=values(section,body,id);
     if(section.equals("cargos")){Integer n=db.queryForObject("SELECT COUNT(*) FROM acr_application_jobs WHERE application_id=?",Integer.class,id);if(n!=null&&n>=2)throw conflict("Se permiten maximo dos cargos");}
     String names=String.join(",",fields.keySet()),marks=String.join(",",Collections.nCopies(fields.size(),"?"));
@@ -114,13 +122,13 @@ public class AcreditacionExpedienteR01Controller {
     db.update(connection->{PreparedStatement ps=connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);for(int i=0;i<args.size();i++)ps.setObject(i+1,args.get(i));return ps;},keys);
     Long item=Objects.requireNonNull(keys.getKey()).longValue();audit("CREAR_"+table.toUpperCase(Locale.ROOT),a,auth);return existing(table,id,item);
   }
-  @Transactional @PutMapping("/{section}/{itemId}") public Map<String,Object> edit(@PathVariable Long id,@PathVariable String section,@PathVariable Long itemId,@RequestBody Map<String,Object> body,Authentication auth){
+  @Transactional @PutMapping({"/cargos/{itemId}","/capacitaciones/{itemId}","/antecedentes-academicos/{itemId}","/antecedentes-clinicos/{itemId}","/situaciones-criticas/{itemId}","/antecedentes-organizacionales/{itemId}","/reconocimientos/{itemId}"}) public Map<String,Object> edit(@PathVariable Long id,@PathVariable Long itemId,@RequestBody Map<String,Object> body,HttpServletRequest request,Authentication auth){String section=section(request,true);
     AcrApplication a=editable(id,auth);String table=table(section);existing(table,id,itemId);
     Map<String,Object> fields=values(section,body,id);String updates=String.join(",",fields.keySet().stream().map(k->k+"=?").toList());
     List<Object> args=new ArrayList<>(fields.values());args.add(itemId);args.add(id);
     db.update("UPDATE "+table+" SET "+updates+" WHERE id=? AND application_id=?",args.toArray());audit("EDITAR_"+table.toUpperCase(Locale.ROOT),a,auth);return existing(table,id,itemId);
   }
-  @Transactional @DeleteMapping("/{section}/{itemId}") public ResponseEntity<Void> remove(@PathVariable Long id,@PathVariable String section,@PathVariable Long itemId,Authentication auth){
+  @Transactional @DeleteMapping({"/cargos/{itemId}","/capacitaciones/{itemId}","/antecedentes-academicos/{itemId}","/antecedentes-clinicos/{itemId}","/situaciones-criticas/{itemId}","/antecedentes-organizacionales/{itemId}","/reconocimientos/{itemId}"}) public ResponseEntity<Void> remove(@PathVariable Long id,@PathVariable Long itemId,HttpServletRequest request,Authentication auth){String section=section(request,true);
     AcrApplication a=editable(id,auth);String table=table(section);
     if(db.update("DELETE FROM "+table+" WHERE id=? AND application_id=?",itemId,id)==0)throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     audit("QUITAR_"+table.toUpperCase(Locale.ROOT),a,auth);return ResponseEntity.noContent().build();

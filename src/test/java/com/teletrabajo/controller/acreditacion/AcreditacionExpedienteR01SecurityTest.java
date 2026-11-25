@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -22,19 +23,20 @@ class AcreditacionExpedienteR01SecurityTest {
   UsernamePasswordAuthenticationToken jwt=new UsernamePasswordAuthenticationToken("alguien@example.test","n/a");
   AcrApplication a(int uid,String state){AcrApplication a=new AcrApplication();a.id=42L;a.processId=1L;a.applicantUserId=uid;a.status=state;return a;}
 
+  HttpServletRequest request(String section){HttpServletRequest r=mock(HttpServletRequest.class);when(r.getRequestURI()).thenReturn("/api/v1/acreditacion/postulaciones/42/"+section);return r;}
   @Test void expedienteAjenoNoEsVisible(){
     when(owner.uid(jwt)).thenReturn(10);when(repo.findById(42L)).thenReturn(Optional.of(a(20,"BORRADOR")));
-    assertEquals(404,assertThrows(ResponseStatusException.class,()->api.list(42L,"cargos",jwt)).getStatusCode().value());
+    assertEquals(404,assertThrows(ResponseStatusException.class,()->api.list(42L,request("cargos"),jwt)).getStatusCode().value());
     verifyNoInteractions(db);
   }
   @Test void presentadoNoSeModifica(){
     when(owner.uid(jwt)).thenReturn(10);when(repo.findById(42L)).thenReturn(Optional.of(a(10,"PRESENTADA")));
-    assertEquals(409,assertThrows(ResponseStatusException.class,()->api.create(42L,"cargos",Map.of("establishment","PRUEBA"),jwt)).getStatusCode().value());
+    assertEquals(409,assertThrows(ResponseStatusException.class,()->api.create(42L,Map.of("establishment","PRUEBA"),request("cargos"),jwt)).getStatusCode().value());
     verifyNoInteractions(db);
   }
   @Test void seccionNoPermitidaNoPermiteLecturaArbitraria(){
     when(owner.uid(jwt)).thenReturn(10);when(repo.findById(42L)).thenReturn(Optional.of(a(10,"BORRADOR")));
-    assertEquals(404,assertThrows(ResponseStatusException.class,()->api.list(42L,"users",jwt)).getStatusCode().value());
+    assertEquals(404,assertThrows(ResponseStatusException.class,()->api.list(42L,request("users"),jwt)).getStatusCode().value());
     verifyNoInteractions(db);
   }
 }
